@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+= Requirements =
+
+Here i will detail the expected functionality (or requirements) of the Project Source Code Manager (PSCM).
+
+
+== General Requirements ==
+
+The PCSM have to support:
+
+* Import existing projects (from a source directory), parsing and generating all the TAGS
+necesaries for the correct working.
+
+
