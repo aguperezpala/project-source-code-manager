@@ -1,0 +1,133 @@
+********************************************************************************
+			FORMATO DE LOS ARCHIVOS
+			-----------------------
+********************************************************************************
+
+Para que los archivos puedan ser reconocidos hay que establecer un formato
+determinado. Por el momento solo vamos a reconocer archivos .h.
+
+Modulos
+-------
+
+Cada modulo / clase debera tener un comentario (al principio en general)
+que indique el peso (osea, que tan importante es en el proyecto el modulo, 
+mientras mayor peso, mayor importancia tiene), de la siguiente forma.
+
+MODULE_WEIGHT = X;
+MODULE_TESTED = Y;
+
+Donde X debera ser el peso (numero entero). Ademas debe haber un ';' luego del 
+valor.
+Y puede ser TRUE | FALSE. determina si el modulo fue testeado o no.
+
+
+Funciones/Metodos
+-----------------
+
+Cada funcion/metodo debe tener un comentario inmediatamente por encima de su
+definicion de la siguiente forma.
+
+FUNC_COMPLETED = X;	FUNCTION_WEIGHT = Y; 	FUNC_TESTED = Z;
+
+Donde COMPLETED indica el porcentaje (en enteros) de cuanto esta completa
+la funcion determinada. FUNCTION_WEIGHT indica el peso que tiene la funcion
+en el modulo determinado (no esta relacionada con el proyecto en si, solo con
+el modulo en la cual esta definida).
+La separacion entre COMPLETED = X y FUNCTION_WEIGHT puede ser tanto un espacio,
+enter, tabulador. La unica restriccion es que luego de cada valor (X | Y) debe
+ir un ';'.
+Z puede ser TRUE | FALSE (puede ser minuscula/mayuscula).
+
+
+Los comentarios que indican las diferentes cosas NO es necesario que esten
+en comentarios separados, pueden estar incluidos dentro de otros comentarios.
+
+
+
+
+********************************************************************************
+		FORMATO (de como vamos a guadar los tads)
+********************************************************************************
+
+
+TAD NOTE
+--------
+No tiene un formato especifico, simplemente la nota...
+
+
+
+TAD TASK
+---------
+<task-desc>descripcion<task-title>title<task-tc>createdTime<task-tl>timeLimit
+<task-st>status<task-k>kind<task-p>priority<task;>
+
+
+TAD FUNCTION
+------------
+<f-c>completed<f-w>weight<f-n>name<f-t>tested<fun;>
+
+
+TAD MODULE
+-----------
+<mod-fn>file-name<mod-notes>NOTAS<mod-tasks>TASKS<module;>
+
+con:
+NOTAS = <mod-not>nota1<mod-not>nota2<mod-not>....<mod-not>notaN<mod-not>
+TASKS = <mod-tas>task1<mod-tas>task2<mod-tas>....<mod-tas>taskN<mod-tas>
+
+
+
+TAD PROJECT
+-----------
+<proj-name>name<proj-dsc>description<proj-dir>projDir<proj-t>tested<proj-co>
+canCompile<proj-mods>MODULES<proj-notes>NOTES<proj-tasks>TASKS<project;>
+
+con:
+MODULES = <proj-mod>modFileName<proj-mod>....
+donde modFileName es el nombre del modulo (module->getName() ++ ".mod"), no es
+el nombre del archivo del modulo.
+
+NOTAS = <proj-not>nota1<proj-not>nota2<proj-not>....<proj-not>notaN<proj-not>
+TASKS = <proj-tas>task1<proj-tas>task2<proj-tas>....<proj-tas>taskN<proj-tas>
+
+
+
+
+
+
+
+
+********************************************************************************
+				SEARCHER
+********************************************************************************
+El archivo de configuracion debe estar hecho de la siguiente forma
+
+X = Y;
+
+X representa la cadena a buscar en los archivos source y no puede tener '\n' en
+el archivo de configuracion del searcher.
+En los archivos source/headers, vamos a tener algo de la forma:
+X <data>; con <data> son los datos/descripciones que queremos poner (ej:
+NOTE: esto es \n una nota;), debe terminar con ';'
+
+Y representa la accion a realizar una vez encontrada la cadena X.
+Y puede tener las siguientes formas
+SEARCHER_TASK_K_BUGFIX,		/* es una tarea para reparar un bug */
+SEARCHER_TASK_K_REVISION,	/* es una tarea para revisar algo */
+SEARCHER_TASK_K_TODO,		/* tarea normal */
+SEARCHER_TASK_k_IMPROVE,		/* tarea de mejoramiento */
+SEARCHER_TASK_K_NORMAL		/* tarea normal..? wtf XD */
+SEARCHER_NOTE
+donde en cada caso se generara lo que representa y sera asociada al modulo
+en el que se encontro.
+
+* Notar que searcher buscara tanto en los archivo headers como los source (que 
+tengan el mismo nombre que el header pero con diferente extencion).
+
+
+
+
+
+
+
+
