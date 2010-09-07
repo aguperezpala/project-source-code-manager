@@ -1,0 +1,41 @@
+FUNCIONALIDADES
+---------------
+
+* Dado un directorio, poder armar un proyecto en base a los archivos que se
+  encuentran en el directorio respetando ya el formato.
+
+* Poder agregar/quitar directorios que pertenecen al proyecto.
+	- Poder agregar recursivamente directorios.
+	- Poder quitar recursivamente directorios.
+
+* Poder importar (transformar) un proyecto (cada modulo) que no respete el
+  formato a uno que si lo haga (va hacer falta poder reconocer las funciones
+  independientemente de los comentarios..)
+	 
+* Tener una seccion donde se puedan agregar los requerimientos del sistema
+  (el analisis de requerimientos).
+  
+* Un manejador de archivos del proyecto y puedan organizarse en distintas
+  carpetas.
+  
+
+
+
+
+
+
+
+FALTA HACER
+------------
+
+* Interfaz grafica, un widget para cada clase:
+	- Project (cambiar nombres de archivos, tienen task)
+	- (Requirement) 
+* Para module_gui:
+	*  Poder agregar notas desde esa ventana.
+	*  Poder agregar tareas desde esa ventana.
+	*  Poder borrar / modificar notas y tareas del modulo.
+
+* Poder modificar el nombre del modulo, funciones? % completado, pesos, etc
+  desde las ventanas (osea deberiamos poder modificar ciertas lineas especificas
+  de determinados archivos. o lo dejamos asi nomas?)
