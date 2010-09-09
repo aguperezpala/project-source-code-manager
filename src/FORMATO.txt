@@ -4,7 +4,8 @@
 ********************************************************************************
 
 Para que los archivos puedan ser reconocidos hay que establecer un formato
-determinado. Por el momento solo vamos a reconocer archivos .h.
+determinado. Por el momento solo vamos a reconocer archivos .cpp, esto es para
+no contaminar el .h (la interfaz).
 
 Modulos
 -------

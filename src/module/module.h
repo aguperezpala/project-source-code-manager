@@ -11,6 +11,7 @@
 #include "note.h"
 #include "parser_aux.h"
 #include "file_aux.h"
+#include "CObject.h"
 
 
 using namespace std;
@@ -23,7 +24,7 @@ enum {
 	MODULE_T_UNKNOWN	/* que lo que */
 };
 
-class Module {
+class Module : public CObject {
 	
 	public:
 		/* constructor */
