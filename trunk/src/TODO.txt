@@ -27,6 +27,8 @@ FUNCIONALIDADES
 
 FALTA HACER
 ------------
+* Reimplementar en todas las clases los metodos virtuales toXml() \ fromXml()
+a cada uno de los objetos.
 
 * Interfaz grafica, un widget para cada clase:
 	- Project (cambiar nombres de archivos, tienen task)
