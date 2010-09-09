@@ -12,9 +12,12 @@
 /* own libs */
 #include "moodule.h"
 #include "function.h"
+#include "cobject.h"
 
 
-class Requirement {
+/* We gonna define some possible states that can be the requirement*/
+
+class Requirement : public CObject {
 	
 	public:
 		/* empty consturctor */
@@ -47,6 +50,9 @@ class Requirement {
 		 * 	mod	!= NULL
 		 */
 		void addModuleDependency(Module *mod);
+		
+		/*! FIXME: we have to add the 2 virtual methods inherited from 
+		 * the CObject class. */
 		
 		/* empty destructor */
 		~Requirement(void);

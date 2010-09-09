@@ -1,10 +1,11 @@
-#ifndef TASK_H
-#define TASK_H
+#ifndef ISSUE_H
+#define ISSUE_H
 
 #include <iostream>
 #include <string>
 #include <string.h>
 #include <time.h>
+#include "cobject.h"
 #include "parser.h"
 
 using namespace std;
@@ -12,29 +13,29 @@ using namespace std;
 
 /* Enumeramos las prioridades */
 enum {
-	TASK_P_LOW,	
-	TASK_P_MEDIUM,	
-	TASK_P_HIGH
+	ISSUE_P_LOW,	
+	ISSUE_P_MEDIUM,	
+	ISSUE_P_HIGH
 };
 /* enumeramos los tipos */
 enum {
-	TASK_K_BUGFIX,		/* es una tarea para reparar un bug */
-	TASK_K_REVISION,	/* es una tarea para revisar algo */
-	TASK_K_TODO,		/* tarea normal */
-	TASK_k_IMPROVE,		/* tarea de mejoramiento */
-	TASK_K_NORMAL		/* tarea normal..? wtf XD */
+	ISSUE_K_BUGFIX,		/* es una tarea para reparar un bug */
+	ISSUE_K_REVISION,	/* es una tarea para revisar algo */
+	ISSUE_K_TODO,		/* tarea normal */
+	ISSUE_k_IMPROVE,	/* tarea de mejoramiento */
+	ISSUE_K_NORMAL		/* tarea normal..? wtf XD */
 };
 /* enumeramos el estado en el que se puede encontrar la tarea */
 enum {
-	TASK_S_DONE,		/* tarea realizada */
-	TASK_S_CHECKED		/* tarea vista/chequeada */
+	ISSUE_S_DONE,		/* tarea realizada */
+	ISSUE_S_CHECKED		/* tarea vista/chequeada */
 };
 
-class Task {
+class Issue : public CObject {
 	
 	public:
 		/* constructor */
-		Task(){};
+		Issue(){};
 				
 		/* setea/obtiene la descripcion */
 		void setDescription(string &d){this->desc = d;};
@@ -67,6 +68,11 @@ class Task {
 		int getPriority(void){return this->priority;};
 		void getStringPriority(string &p);
 		
+		/*! FIXME: Here will have to put the virtual methods inherited 
+		 * from the CObject class, and remove the other two.
+		 */
+		
+		
 		/*! Genera una task desde un string respetando el formato
 		* asignado para guardar las task
 		* RETURNS:
@@ -79,15 +85,13 @@ class Task {
 		* en un archivo.
 		* RETURNS:
 		*	NULL		if error
-		*	strTask		otherwise
+		*	strIssue		otherwise
 		* NOTE: Genera memoria
 		*/
 		string *toString(void);
 		
-		/* vamos a comparar 2 task segun su desc (porque nos conviene) */
-		bool operator==(Task &other);
 		
-		~Task(){};
+		~Issue(){};
 		
 		/*debug*/
 		void Print(void);
