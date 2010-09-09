@@ -1,39 +1,39 @@
-#include "task.h"
+#include "issue.h"
 
 
-void Task::getStringStatus(string &s)
+void Issue::getStringStatus(string &s)
 {
-	if (this->status == TASK_S_DONE)
+	if (this->status == ISSUE_S_DONE)
 		s = "DONE";
-	else if (this->status == TASK_S_CHECKED)
+	else if (this->status == ISSUE_S_CHECKED)
 		s = "CHECKED";
 	else
 		s = "UNKNOWN";
 	
 }
-void Task::getStringType(string &type)
+void Issue::getStringType(string &type)
 {
-	if(this->kind == TASK_K_BUGFIX)
+	if(this->kind == ISSUE_K_BUGFIX)
 		type = "BUGFIX";
-	else if(this->kind == TASK_K_REVISION)
+	else if(this->kind == ISSUE_K_REVISION)
 		type = "REVISION";
-	else if(this->kind == TASK_K_TODO)
+	else if(this->kind == ISSUE_K_TODO)
 		type = "TODO";
-	else if(this->kind == TASK_k_IMPROVE)
+	else if(this->kind == ISSUE_k_IMPROVE)
 		type = "IMPROVE";
-	else if(this->kind == TASK_K_NORMAL)
+	else if(this->kind == ISSUE_K_NORMAL)
 		type = "NORMAL";
 	else
 		type = "UNKNOWN";
 	
 }
-void Task::getStringPriority(string &p)
+void Issue::getStringPriority(string &p)
 {
-	if(this->priority == TASK_P_LOW)
+	if(this->priority == ISSUE_P_LOW)
 		p = "LOW";
-	else if(this->priority == TASK_P_MEDIUM)
+	else if(this->priority == ISSUE_P_MEDIUM)
 		p = "MEDIUM";
-	else if(this->priority == TASK_P_HIGH)
+	else if(this->priority == ISSUE_P_HIGH)
 		p = "HIGH";
 	else
 		p = "UNKNOWN";
@@ -41,13 +41,13 @@ void Task::getStringPriority(string &p)
 
 
 /* setea/obtiene el tiempo de creacion */
-void Task::setCreatedTime(time_t &ct)
+void Issue::setCreatedTime(time_t &ct)
 {
 	memcpy(&this->createdTime, &ct, sizeof(ct));
 }
 
 /* setea/obtiene el tiempo de fecha limite */
-void Task::setLimitTime(time_t &lt)
+void Issue::setLimitTime(time_t &lt)
 {
 	memcpy(&this->limitTime, &lt, sizeof(lt));
 }
@@ -59,7 +59,7 @@ void Task::setLimitTime(time_t &lt)
 * 	< 0	on error
 *	0	if success
 */
-int Task::fromString(string &str)
+int Issue::fromString(string &str)
 {
 	string value = "";
 
@@ -119,10 +119,10 @@ int Task::fromString(string &str)
 * en un archivo.
 * RETURNS:
 *	NULL		if error
-*	strTask		otherwise
+*	strIssue		otherwise
 * NOTE: Genera memoria
 */
-string *Task::toString(void)
+string *Issue::toString(void)
 {
 	string *result = new string();
 	char buff[20] = {0};
@@ -156,22 +156,14 @@ string *Task::toString(void)
 	return result;
 }
 
-/* vamos a comparar 2 task segun su desc (porque nos conviene) */
-bool Task::operator==(Task &other)
-{
-	if(this->desc.compare(other.getDescription()) == 0)
-		return true;
-	return false;
-}
 
-
-void Task::Print(void)
+void Issue::Print(void)
 {
-	cout << "\nTask desc: " << this->desc;
-	cout << "\nTask title: " << this->title;
-	cout << "\nTask status: " << this->status;
-	cout << "\nTask kind: " << this->kind;
-	cout << "\nTask priority: " << this->priority;
+	cout << "\nIssue desc: " << this->desc;
+	cout << "\nIssue title: " << this->title;
+	cout << "\nIssue status: " << this->status;
+	cout << "\nIssue kind: " << this->kind;
+	cout << "\nIssue priority: " << this->priority;
 	
 	
 }
