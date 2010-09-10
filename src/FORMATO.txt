@@ -49,49 +49,206 @@ en comentarios separados, pueden estar incluidos dentro de otros comentarios.
 ********************************************************************************
 		FORMATO (de como vamos a guadar los tads)
 ********************************************************************************
-
+The format will be XML notation, with no attributes, every element of the object
+will be a sub-element of the root element.
 
 TAD NOTE
 --------
-No tiene un formato especifico, simplemente la nota...
+<Note>
+	<ObjectId>
+		ID
+	</ObjectId>
+	
+	<Data>
+		note...
+	</Data>
+	
+</Note>
 
 
-
-TAD TASK
+TAD ISSUE
 ---------
-<task-desc>descripcion<task-title>title<task-tc>createdTime<task-tl>timeLimit
-<task-st>status<task-k>kind<task-p>priority<task;>
+<Issue>
+
+	<ObjectId>
+		ID
+	</ObjectId>
+	
+	<Description>
+		Desc
+	</Description>
+	
+	<Title>
+		title
+	</Title>
+	
+	<Creation_Date>
+		The date when was created the issue
+	</Creation_Date>
+	
+	<Expires_Date>
+		The date when expires the issue, its something like the 
+		"DeadLine"
+	</Expires_Date>
+	
+	<Status>
+		The status that it is the issue
+	</Status>
+	
+	<Kind>
+		Issue kind
+	</Kind>
+	
+	<Priority>
+		title
+	</Priority>
+	
+</Issue>
 
 
 TAD FUNCTION
 ------------
-<f-c>completed<f-w>weight<f-n>name<f-t>tested<fun;>
+Probably this TAD never will be saved, because is loaded at run time, and will
+change all the time. But for compatibility we will set the structure of the
+XML notation.
+
+<Function>
+	
+	<ObjectId>
+		ID
+	</ObjectId>
+	
+	<Completed>
+		True/False (it is completly developed?)
+	</Completed>
+	
+	<Weight>
+		the Weight of the function in the module
+	</Weight>
+	
+	<Tested>
+		True/False depends if the function was tested or not.
+	</Tested>
+	
+	<Name>
+		Function name
+	</Name>
+
+</Function>
 
 
 TAD MODULE
 -----------
-<mod-fn>file-name<mod-notes>NOTAS<mod-tasks>TASKS<module;>
 
-con:
-NOTAS = <mod-not>nota1<mod-not>nota2<mod-not>....<mod-not>notaN<mod-not>
-TASKS = <mod-tas>task1<mod-tas>task2<mod-tas>....<mod-tas>taskN<mod-tas>
+<Module>
+
+	<ObjectId>
+		ID
+	</ObjectId>
+	
+	<FileName>
+		the file associated to the module
+	</FileName>
+	
+	<NoteList>
+		<Note>
+			Note 1
+		</Note>
+		
+		<Note>
+			Note 2
+		</Note>
+		
+		<Note>
+			Note 3
+		</Note>
+		..
+	</NoteList>
+	
+	<IssueList>
+		<Issue>
+			....
+		</Issue>
+		....
+	</IssueList>
+	
+	
+</Module>
 
 
 
 TAD PROJECT
 -----------
-<proj-name>name<proj-dsc>description<proj-dir>projDir<proj-t>tested<proj-co>
-canCompile<proj-mods>MODULES<proj-notes>NOTES<proj-tasks>TASKS<project;>
 
-con:
-MODULES = <proj-mod>modFileName<proj-mod>....
-donde modFileName es el nombre del modulo (module->getName() ++ ".mod"), no es
-el nombre del archivo del modulo.
+<Project>
 
-NOTAS = <proj-not>nota1<proj-not>nota2<proj-not>....<proj-not>notaN<proj-not>
-TASKS = <proj-tas>task1<proj-tas>task2<proj-tas>....<proj-tas>taskN<proj-tas>
-
-
+	<ObjectId>
+		ID
+	</ObjectId>
+	
+	<Name>
+		Project Name
+	</Name>
+	
+	<Description>
+		Project Description
+	</Description>
+	
+	<DirectoriesList>
+		.
+		../
+		./mod1
+		./mod2
+		...
+		(the list of the directories have to be separeted by a '\n')
+	</DirectoriesList>
+	
+	<Tested>
+		True/false
+	</Tested>
+	
+	<CanCompile>
+		Determines if the project can be compiled or not.
+	</CanCompile>
+	
+	<ModulesList>
+		<ModuleFile>
+			./Module1.mod
+		</ModuleFile>
+		
+		<ModuleFile>
+			./Module2.mod
+		</ModuleFile>
+		
+		<ModuleFile>
+			./Module3.mod
+		</ModuleFile>
+		..
+	</ModulesList>
+	
+	<NoteList>
+		<Note>
+			Note 1
+		</Note>
+		
+		<Note>
+			Note 2
+		</Note>
+		
+		<Note>
+			Note 3
+		</Note>
+		..
+	</NoteList>
+	
+	<IssueList>
+		<Issue>
+			....
+		</Issue>
+		....
+	</IssueList>
+	
+</Project>
 
 
 
