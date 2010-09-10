@@ -22,8 +22,6 @@ FUNCIONALIDADES
 
 MERGE this
 ----------
-* Tendriamos que agregar el operador == al CObject, asi podemos comparar
-elementos distintos (por medio de la id).
 * Buscar alguna forma de hacer un wrapper para poder setear los id unicos
 a cada CObject.
 
@@ -33,6 +31,8 @@ FEATURES
 
 * Generalizar la forma en la que se relacionan los elementos, (tener listas
 de CObjects en vez de cada uno de los distintos elementos).
+* Setear el atributo de testeado en numero en vez de verdadero o falsa, 
+osea, poder determinar que tanto fue testeado un modulo o funcion.
 
 
 

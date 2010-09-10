@@ -5,6 +5,9 @@
 #define COBJECT_H
 
 #include <string>
+/* own libraries */
+#include "ssxmlparser.h" /* this will be used to the to/from XML functions */
+
 
 using namespace std;
 
@@ -15,10 +18,10 @@ class CObject {
 		CObject(void){};
 		
 		/* returns the class ID */
-		int getID(void){return this->Id;};
+		int getID(void){return this->id;};
 		
 		/* set the class ID */
-		void setID(int ID){this->Id = ID;};
+		void setID(int ID){this->id = ID;};
 		
 		
 		/*!### Reimplement this methods. */
@@ -33,13 +36,18 @@ class CObject {
 		*/
 		virtual int fromXML(strnig &xml){};
 		
+		/* This function will be used to compare diferent objects,
+		 * in some cases this could be defined in the class itself
+		 */
+		bool operator==(CObject &o){return (this->id == o.getID());};
+		
 		/* empty destructor */
 		~CObject(void){};
 	
 	private:
 		/* this will be the class id, every object it will have a 
 		 * diferent ID */
-		int Id;
+		int id;
 };
 
 

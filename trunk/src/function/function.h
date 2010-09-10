@@ -3,13 +3,17 @@
 
 #include <iostream>
 #include <string>
+#include <stdio.h>
 #include <assert.h>
+/* own libs */
 #include "parser.h"
+#include "cobject.h"
+
 
 using namespace std;
 
 
-class Function {
+class Function : public CObject {
 	
 	public:
 		/* constructor */
@@ -33,6 +37,18 @@ class Function {
 		/* setea/obtiene tested*/
 		void setTested(bool t){this->tested = t;};
 		bool getTested(void){return this->tested;};
+		
+		/*! the CObject virtual methods... */
+		
+		/* Virtual method to convert the object in a XML string. */
+		void toXML(string &result);
+		
+		/* Virtual method to import the object from a XML string 
+		 * RETURNS:
+		 * 	< 0	on error
+		 * 	0	if success
+		*/
+		int fromXML(strnig &xml);
 		
 		/*! Genera una funcion desde un string respetando el formato
 		* asignado para guardar las funciones
