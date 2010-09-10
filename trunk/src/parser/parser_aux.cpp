@@ -198,3 +198,22 @@ int parser_count_num_ocurr(string &data, int from, int to, string &str)
 	return result;
 	
 }
+
+
+/*!			Auxiliar functions				*/
+
+/* Function to set a string in upper case.
+ * REQUIRES:
+ * 	str	to convert
+*/
+void parser_transform_upper(string &str)
+{
+	int i = 0;
+	
+	while (str[i])
+	{
+		str[i] = toupper(str[i]);
+		i++;
+	}
+}
+

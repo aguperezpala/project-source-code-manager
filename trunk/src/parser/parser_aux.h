@@ -52,5 +52,13 @@ int parser_count_num_ocurr(string &data, int from, int to, string &str);
 
 
 
+/*!			Auxiliar functions				*/
+
+/* Function to set a string in upper case.
+ * REQUIRES:
+ * 	str	to convert
+*/
+void parser_transform_upper(string &str);
+
 
 #endif

@@ -91,13 +91,9 @@ int Module::loadFromFile(void)
 		cerr << "No se pudo determinar si el modulo fue testeado o no\n";
 		this->tested = false;
 	} else {
-		int i = 0;
-		/* determinamos el valor de value */
-		while (sValue[i])
-		{
-			sValue[i] = toupper(sValue[i]);
-			i++;
-		}
+		/* set upper case */
+		parser_transform_upper(sValue);
+		
 		if((int)sValue.find("TRUE") >= 0)
 			this->tested = true;
 		else if((int)sValue.find("FALSE") >= 0)

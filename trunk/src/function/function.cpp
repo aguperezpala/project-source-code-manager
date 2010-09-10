@@ -79,58 +79,61 @@ int Function::fromXML(strnig &xml)
 	pIt = eParse.begin();
 	rIt = results.begin();
 	
+	/* FIXME: there are no error checking, review this */
 	while(pIt != eParse.end() && rIt != results.end()) {
+		
+		/* now we have to parse every field and fill the fields 
+		 * associated to the class */
+		
+		if((*pIt).find("ObjectId") != string::npos){
+			int parsedId = atoi((*rIt).c_str());
+			
+			/* we have to parse the ID */
+			this->setID(persedId);
+			
+		} else if((*pIt).find("Completed") != string::npos){
+			string res = (*rIt);
+			
+			/* we convert to upper the result */
+			parser_transform_upper(res);
+			
+			if(res.find("TRUE") != string::npos)
+				this->setCompleted(true);
+			else
+				/* we are supposing that there is false other wise */
+				this->setCompleted(false);
+			
+		} else if((*pIt).find("Weight") != string::npos) {
+			int parsedWeight = atoi((*rIt).c_str());
+			
+			this->setWeight(parsedWeight);
+		} else if((*pIt).find("Name") != string::npos) {
+			this->setName((*rIt));
+		} else if((*pIt).find("Completed") != string::npos){
+			/* we convert to upper the result */
+			string res = (*rIT);
+			
+			parser_transform_upper(res);
+			
+			if(res.find("TRUE") != string::npos)
+				this->setCompleted(true);
+			else
+				/* we are supposing that there is false other wise */
+				this->setCompleted(false);
+		} else
+			/* Some error ocurr, so we return -1. NOTE: here we ar
+			 * letting the class in a inconsistent state, probably 
+			 * the best in this case will be erase all the fields
+			 * or the class itslef. */
+			return -1;
 		
 		++pIt;
 		++rIt;
 	}
-}
-
-
-/*! Genera una funcion desde un string respetando el formato
-* asignado para guardar las funciones
-* RETURNS:
-* 	< 0	on error
-*	0	if success
-*/
-int Function::fromString(string &str)
-{	
-	string value = "";
-	
-	
-	if (getValue(str, 0,"<f-c>", "<f-w>", value) < 0)
-		return -1;
-	else {
-		if (sizeof(this->completed) != value.size())
-			return -1;
-		memcpy(&this->completed, value.c_str(), value.size());
-	}
-	
-	if (getValue(str, 0,"<f-w>", "<f-n>", value) < 0)
-		return -1;
-	else {
-		if (sizeof(this->weight) != value.size())
-			return -1;
-		/* debemos copiar lo que leimos en createdTime */
-		memcpy(&this->weight, value.c_str(), value.size());
-	}
-	
-	if (getValue(str, 0,"<f-n>", "<f-t>", this->name) < 0)
-		return -1;
-	
-	if (getValue(str, 0,"<f-t>", "<fun;>", value) < 0)
-		return -1;
-	else {
-		if (sizeof(this->tested) != value.size())
-			return -1;
-			/* debemos copiar lo que leimos en createdTime */
-			memcpy(&this->tested, value.c_str(), value.size());
-	}
 	
 	return 0;
-	/*<f-c>completed<f-w>weight<f-n>name<fun;>*/
-	
 }
+
 
 
 /* debug */

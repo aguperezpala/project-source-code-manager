@@ -2,6 +2,7 @@
 #define FUNCTION_H
 
 #include <iostream>
+#include <stdlib.h>
 #include <string>
 #include <stdio.h>
 #include <assert.h>
@@ -74,6 +75,7 @@ class Function : public CObject {
 		void Print(void);
 	
 	private:
+		
 		int completed;	/* % de completado de la funcion */
 		int weight;	/* peso de la funcion en el modulo */
 		bool tested;
