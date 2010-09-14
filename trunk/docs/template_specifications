@@ -1,0 +1,89 @@
+General specifitacions
+----------------------
+
+This is the file wich tells how are formed and how it works the templates files.
+The file will have a few sections, every of this sections will be titled in the
+form [Section] and it will be finish in the next titled section.
+In this sections will be variables and a value assigned to them, this will be in
+the form
+VARIABLE_NAME=VALUE
+where the value its the string between the '=' and the '\n'. Note that if you
+want to add a '\n' to be form part of the value, then write \n (for example: 
+this is the value\n). Be careful when the blank spaces after the = if the value 
+it is a string value.
+
+All the lines that start with a '#' will not be considered (comments).
+
+The variables should be in upper case, and the values are case sensitive.
+
+
+Sections and variables of the template file
+-------------------------------------------
+
+[General]
+# This is the Template name, could be empty..
+TEMPLATE_NAME=
+
+# The list of the files associated to the template, this are separated with a 
+# blank spaces (for example: .cpp .c .h). This files will be the files recognized
+# for the project (where it will be search for the project tags).
+EXTENSIONS_FILES_ASSOCIATED=
+
+# We gonna define how the comments will be recognized in the files. This way
+# we will can extract the "TAGS" needed. There are 2 vars, COMMENTS_OPEN and
+# COMMENTS_CLOSE, wich means the characters used to open a comment and close
+# the comments respectly (for ex: COMMENTS_OPEN=/* COMMENTS_CLOSE=*/.)
+COMMENTS_OPEN=
+COMMENTS_CLOSE=
+
+# We have to declare wich will be the string wich will determine the end of the 
+# value associated to some of the TAGS, for example, if we set the <;> as the 
+# end string, then we have to write into the source files (in the comments) 
+# TAG = value<;> (for example: MODULE_NAME = Module1<;>, in the module comment
+# wich will establish the name of the module).
+END_VALUE_STRING=
+
+
+
+################################################################################
+
+# Now we gonna have one section per module (ADT) of the projects, where will
+# set the diferent TAG-fields of the object (module) to extract the value
+# and fill the instance with that.
+# NOTE that every TAG-field will be searched in the comments, and all the TAG
+# that appear in each section have to be in the same comment (so if in the 
+# section Function appears 2 TAGS -FUNCTION_WEIGTH, FUNCTION_COMPLETED- then 
+# this 2 TAGS have to be in the same comment: /* ... FUNCTION_WEIGTH = 30;
+# FUNCTION_COMPLETED = 58; */).
+# 
+# Note that the value of the field have to finish with the END_VALUE_STRING
+
+
+
+[Function]
+# We can redefine the name of the FUNCTION_WEIGTH field, we will use this for now
+FUNCTION_WEIGTH_INT=FUNCTION_WEIGTH
+# Also the FUNCTION_COMPLETE
+FUNCTION_COMPLETE_BOOL=FUNCTION_COMPLETE
+# the function name, its better to have this field for support other languages
+FUNCTION_NAME_STRING=FUNCTION_NAME
+
+
+[Note]
+# We can create Notes from the source, this its a feature, could be used or not.
+# The key string used to create automatic notes (have to end with END_VALUE_STRING)
+# Example: CREATE_NOTE = this will be a automatic note creation;
+NOTE_KEY_STRING_STRING=
+
+
+[Issue]
+# Automati issue creation. Like the Note, but this is more complex because there
+# are more than one issue kind and priority.
+# This will be the string used to automatically create Issues
+ISSUE_KEY_STRING_STRING=
+# The kind of the issue, could be (ISSUE_K_BUGFIX | ISSUE_K_REVISION ...), see
+# the issue.h for more details
+ISSUE_KIND_KEY_STRING=
+# The issue priority... 
+ISSUE_PRIORITY_KEY_STRING=
+
