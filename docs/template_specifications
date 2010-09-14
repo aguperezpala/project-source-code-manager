@@ -87,3 +87,15 @@ ISSUE_KIND_KEY_STRING=
 # The issue priority... 
 ISSUE_PRIORITY_KEY_STRING=
 
+
+[Module]
+# The differents attributes used to the module
+MODULE_NAME_STRING=
+# We have a description
+MODULE_DESCRIPTION_STRING=
+# The Weigth of the module in the project
+MODEULE_WEIGTH_INT=
+# The module its compilable?
+MODULE_COMPILABLE_BOOL=
+# The module was tested?
+MODULE_TESTED_BOOL=
