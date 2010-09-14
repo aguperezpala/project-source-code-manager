@@ -3,9 +3,12 @@
 			-----------------------
 ********************************************************************************
 
-Para que los archivos puedan ser reconocidos hay que establecer un formato
-determinado. Por el momento solo vamos a reconocer archivos .cpp, esto es para
-no contaminar el .h (la interfaz).
+Vamos a usar template config files para determinar las diferentes cosas a tener
+en cuenta para el proyecto, por ejemplo: tipo de archivos a reconocer, tags
+a utilizar para parsear, nombre de los atributos a buscar para completar, etc.
+
+Los archivos de configuracion se van a guardar en archivos .template, para mayor
+informacion ver template_specifications
 
 
 Directory struct
