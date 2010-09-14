@@ -7,6 +7,17 @@ Para que los archivos puedan ser reconocidos hay que establecer un formato
 determinado. Por el momento solo vamos a reconocer archivos .cpp, esto es para
 no contaminar el .h (la interfaz).
 
+
+Directory struct
+----------------
+There will be 5 files: 
+project.xml (will contain the information of the project).
+modules.xml (will contain all the modules of the project).
+issues.xml (will contain all the issues of the project).
+requirements.xml (will contain all the requirements of the project)
+notes.xml (will contain all the notes of the project).
+
+
 Modulos
 -------
 
@@ -146,31 +157,41 @@ TAD MODULE
 		ID
 	</ObjectId>
 	
+	<Name>
+		Module Name
+	</Name>
+	
+	<Description>
+	
+	</Description>
+	
 	<FileName>
 		the file associated to the module
 	</FileName>
 	
 	<NoteList>
-		<Note>
+		<Note-ID>
 			Note 1
-		</Note>
+		</Note-ID>
 		
-		<Note>
+		<Note-ID>
 			Note 2
-		</Note>
+		</Note-ID>
 		
-		<Note>
+		<Note-ID>
 			Note 3
-		</Note>
+		</Note-ID>
 		..
 	</NoteList>
 	
 	<IssueList>
-		<Issue>
+		<Issue-ID>
 			....
-		</Issue>
+		</Issue-ID>
 		....
 	</IssueList>
+	
+	
 	
 	
 </Module>
@@ -203,54 +224,101 @@ TAD PROJECT
 		(the list of the directories have to be separeted by a '\n')
 	</DirectoriesList>
 	
-	<Tested>
-		True/false
-	</Tested>
-	
-	<CanCompile>
-		Determines if the project can be compiled or not.
-	</CanCompile>
-	
 	<ModulesList>
-		<ModuleFile>
-			./Module1.mod
-		</ModuleFile>
+		<Module-ID>
+			ID
+		</Module-ID>
 		
-		<ModuleFile>
-			./Module2.mod
-		</ModuleFile>
+		<Module-ID>
+			ID
+		</Module-ID>
 		
-		<ModuleFile>
-			./Module3.mod
-		</ModuleFile>
+		<Module-ID>
+			ID
+		</Module-ID>
 		..
 	</ModulesList>
 	
 	<NoteList>
-		<Note>
+		<Note-ID>
 			Note 1
-		</Note>
+		</Note-ID>
 		
-		<Note>
+		<Note-ID>
 			Note 2
-		</Note>
+		</Note-ID>
 		
-		<Note>
+		<Note-ID>
 			Note 3
-		</Note>
+		</Note-ID>
 		..
 	</NoteList>
 	
+	
 	<IssueList>
-		<Issue>
+		<Issue-ID>
 			....
-		</Issue>
+		</Issue-ID>
 		....
 	</IssueList>
+	
+	<RequirementList>
+		<Requirement-ID>
+			....
+		</Requirement-ID>
+		....
+	</RequirementList>
 	
 </Project>
 
 
+
+TAD REQUIREMENT
+---------------
+
+
+<Requirement>
+
+	<ObjectId>
+		ID
+	</ObjectId>
+	
+	<Title>
+		Requirement Name
+	</Title>
+	
+	<Description>
+		Project Description
+	</Description>
+	
+	<Priority>
+		Req priority
+	</Priority>
+	
+	<ModulesList>
+		<Module-ID>
+			ID
+		</Module-ID>
+		
+		<Module-ID>
+			ID
+		</Module-ID>
+		
+		<Module-ID>
+			ID
+		</Module-ID>
+		..
+	</ModulesList>
+	
+	<IssueList>
+	
+		<Issue-ID>
+			Id
+		</Issue-ID>
+		..
+	</IssueList>
+	
+</Requirement>
 
 
 

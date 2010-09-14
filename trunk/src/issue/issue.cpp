@@ -11,7 +11,7 @@ void Issue::getStringStatus(string &s)
 		s = "UNKNOWN";
 	
 }
-void Issue::getStringType(string &type)
+void Issue::getStringKind(string &type)
 {
 	if(this->kind == ISSUE_K_BUGFIX)
 		type = "BUGFIX";
@@ -50,6 +50,80 @@ void Issue::setCreatedTime(time_t &ct)
 void Issue::setLimitTime(time_t &lt)
 {
 	memcpy(&this->limitTime, &lt, sizeof(lt));
+}
+
+
+/*! Virtual method to convert the object in a XML string. */
+void Issue::toXML(string &result);
+{
+	stringstream streamAux;
+	string eName = "Issue";
+	string aux = "";
+	list<string> eName;
+	list<string> eValue;
+	struct tm  *ts;
+	char buff[30] = {};
+	
+	/* Object id */
+	aux = "ObjectId";
+	eName.push_back(aux);
+	streamAux << this->getID();
+	eValue.push_back(streamAux.str());
+	streamAux.str("");
+	streamAux.clear();
+	
+	aux = "Description";
+	eName.push_back(aux);
+	eValue.push_back(this->getDescription());
+	
+	aux = "Title";
+	eName.push_back(aux);
+	eValue.push_back(this->getTitle());
+	
+	aux = "Creation_Date";
+	eName.push_back(aux);
+	ts = localtime(&(this->getCreatedTime()));
+	strftime(buff, sizeof(buf), "%a %Y-%m-%d %H:%M:%S %Z", ts);
+	aux = buff;
+	eValue.push_back(aux);
+	
+	aux = "Expires_Date";
+	eName.push_back(aux);
+	ts = localtime(&(this->getLimitTime()));
+	strftime(buff, sizeof(buf), "%a %Y-%m-%d %H:%M:%S %Z", ts);
+	aux = buff;
+	eValue.push_back(aux);
+	
+	aux = "Status";
+	eName.push_back(aux);
+	aux = this->getStringStatus();
+	eValue.push_back(aux);
+	
+	aux = "Kind";
+	eName.push_back(aux);
+	aux = getStringKind();
+	eValue.push_back(aux);
+	
+	aux = "Priority";
+	eName.push_back(aux);
+	aux = getStringPriority()
+	eValue.push_back(aux);
+	
+	
+	/* now we create the string */
+	if(ssxmlp_create_element(eName, eName, eValue, result) < 0)
+		perror("Error generating the xml of the issue??... ");
+	
+}
+
+/*! Virtual method to import the object from a XML string 
+* RETURNS:
+* 	< 0	on error
+* 	0	if success
+*/
+int Issue::fromXML(strnig &xml)
+{
+	
 }
 
 
@@ -124,6 +198,7 @@ int Issue::fromString(string &str)
 */
 string *Issue::toString(void)
 {
+	
 	string *result = new string();
 	char buff[20] = {0};
 	
