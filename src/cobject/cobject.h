@@ -47,7 +47,8 @@ class CObject {
 	private:
 		/* this will be the class id, every object it will have a 
 		 * diferent ID */
-		int id;
+		static size_t id;
+		
 };
 
 
