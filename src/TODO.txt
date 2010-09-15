@@ -38,6 +38,8 @@ osea, poder determinar que tanto fue testeado un modulo o funcion.
 
 FALTA HACER
 ------------
+* Estamos haciendo ConfigManager (FIXME: complete this function)
+
 * Reimplementar en todas las clases los metodos virtuales toXml() \ fromXml()
 a cada uno de los objetos.
 

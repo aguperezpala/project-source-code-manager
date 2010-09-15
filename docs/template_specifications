@@ -87,6 +87,8 @@ ISSUE_KIND_KEY_STRING=
 # The issue priority... 
 ISSUE_PRIORITY_KEY_STRING=
 
+ 
+
 
 [Module]
 # The differents attributes used to the module
