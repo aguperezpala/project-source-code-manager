@@ -1,5 +1,64 @@
 #include "parser.h"
 
+/* Function wich removes all the comments from the data
+* REQUIRES:
+* 	data
+* 	cB	(commentBegin string)
+* 	cE	(commentEnd string)
+*/
+void parer_extract_comments(string &data, string &cB, string &cE)
+{
+	size_t bPos = 0, ePos = 0;
+	
+	/* we will start to extract the comments */
+	while(1) {
+		bPos = data.find(cB, bP);
+		
+		if(bPos == string::npos)
+			/* nothing else to extract */
+			break;
+		
+		ePos = data.find(cE, bP + 1);
+		if(bPos == string::npos)
+			/* mmm, we gonna extract this, it cannot be posible */
+			ePos = data.length();
+		else
+			ePos = ePos + cE.length();
+		
+		/* do the erase */
+		
+		data.erase(bPos, ePos - bPos);
+		
+	}
+}
+
+/* Function wich returns the position of the first character finded from the
+* list of characters cList
+* REQUIRES:
+* 	data		(where we gonna search for the chars)
+* 	cList		(the list of characters to be searched for)
+* RETURNS:
+* 	string::npos	if not found
+*	pos		if some of the characters was found 
+*/
+size_t parser_get_char_pos(string &data, string &cList)
+{
+	size_t i = 0;
+	size_t len = data.length();
+	
+	for(i = 0; i < len; i++){
+		if(cList.find(data[i]) != string::npos)
+			/* we find one */
+			break;
+	}
+	
+	if(i < len)
+		return i;
+	
+	return string::npos;
+}
+
+
 /*! Funcion que devuelve un valor determinado segun un nombre de una KEY
  * determinada. 
  * REQUIRES:

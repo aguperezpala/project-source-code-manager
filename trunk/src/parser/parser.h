@@ -24,6 +24,27 @@
 
 using namespace std;
 
+
+/* Function wich removes all the comments from the data
+* REQUIRES:
+* 	data
+* 	cB	(commentBegin string)
+* 	cE	(commentEnd string)
+*/
+void parer_extract_comments(string &data, string &cB, string &cE);
+
+/* Function wich returns the position of the first character finded from the
+ * list of characters cList
+ * REQUIRES:
+ * 	data		(where we gonna search for the chars)
+ * 	cList		(the list of characters to be searched for)
+ * RETURNS:
+ * 	string::npos	if not found
+ *	pos		if some of the characters was found 
+ */
+size_t parser_get_char_pos(string &data, string &cList);
+
+
 /*! Funcion que devuelve un valor determinado segun un nombre de una KEY
 * determinada. 
 * NOTE: Usa VALUE_SEPARATARO VALUE_ASSIGN & PARSER_BLANKS
@@ -35,7 +56,7 @@ using namespace std;
 * 	0 	if success
 * 	< 0	otherwise
 */
-int parser_search_key(string &data,string &key, string &value);
+int parser_search_key(string &data, string &key, string &value);
 
 /*! funcion que parsea un value entre 2 elementos
 * RETURNS:

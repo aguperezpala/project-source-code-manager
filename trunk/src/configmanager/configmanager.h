@@ -6,10 +6,10 @@
 #define CONFIGMANAGER_H
 
 #include <string>
-#include <ifstream>
+#include <iostream>
+#include <fstream>
 #include <map>
-/* own libraries */
-#include "parser.h" /* this will be used to the to/from XML functions */
+
 
 using namespace std;
 
@@ -67,6 +67,7 @@ class ConfigManager {
 		 */
 		int getValue(string &key, string &value);
 		
+		
 		/* empty destructor */
 		~ConfigManager(void);
 	
@@ -78,6 +79,15 @@ class ConfigManager {
 		 * 	0 	if succes (and returns the data into result)
 		 */
 		int readFile(string &fname, string &result);
+		
+		/* Function wich removes all the comments from the data
+		* REQUIRES:
+		* 	data
+		* 	cB	(commentBegin string)
+		* 	cE	(commentEnd string)
+		*/
+		void removeComments(string &data, string &cB, string &cE);
+		
 		
 		
 		/*! 			Attributes			*/
