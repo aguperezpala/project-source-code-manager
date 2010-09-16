@@ -42,6 +42,37 @@ int ConfigManager::readFile(string &fn, string &result)
 	return 0;
 }
 
+/* Function wich removes all the comments from the data
+* REQUIRES:
+* 	data
+* 	cB	(commentBegin string)
+* 	cE	(commentEnd string)
+*/
+void ConfigManager::removeComments(string &data, string &cB, string &cE)
+{
+	size_t bPos = 0, ePos = 0;
+	
+	/* we will start to extract the comments */
+	while(1) {
+		bPos = data.find(cB, bPos);
+		
+		if(bPos == string::npos)
+			/* nothing else to extract */
+			break;
+		
+		ePos = data.find(cE, bPos + 1);
+		if(bPos == string::npos)
+			/* mmm, we gonna extract this, it cannot be posible */
+			ePos = data.length();
+		else
+			ePos = ePos + cE.length();
+		
+		/* do the erase */
+		
+		data.erase(bPos, ePos - bPos);
+		
+	}
+}
 
 
 /* consturctor */
@@ -69,13 +100,51 @@ int ConfigManager::loadConfiguration(void)
 {
 	/* for the moment this will be a ugly implementation but it will work */
 	string data = "";
+	string commentB = CONFIGM_COMMENT_STR, commentE = "\n";
+	string key = "", value = "", line = "";
+	size_t bPos = 0, eolP = 0;
+	size_t eqPos = 0;
+	
+	
 	
 	if(readFile(this->fname, data) < 0)
 		/* no file name */
 		return -1;
 	
 	/* now we extract the comments, and let the clean data.. */
-	/*! FIXME: complete this function */
+	removeComments(data, commentB, commentE);
+	
+	/* now to have a clean parse we append a \n */
+	if(data[data.length()-1] != '\n')
+		data.append("\n");
+	
+	/* here we have the clean file, now extract the values of the vars 
+	 * NOTE: we aren't recognizing the differents sectiosn [Section1] */
+	while(1){
+		eolP = data.find('\n', bPos);
+		
+		if(eolP == string::npos)
+			break;
+		
+		line = data.substr(bPos, eolP - bPos);
+		bPos = eolP + 1;
+		
+		// now we extract the key and the value 
+		eqPos = line.find("=");
+		if(eqPos == string::npos)
+			continue;
+		
+		key = line.substr(0,eqPos);
+		value = line.substr(eqPos + 1, line.length() - eqPos - 1);
+		
+		// insert the value if there are a key equivalent
+		if(this->valuesHash.find(key) == this->valuesHash.end())
+			// there isnt... debug("the key dsnt match...")
+			continue;
+		else
+			this->valuesHash[key] = value;
+	}
+	
 	
 	return 0;
 }
@@ -87,7 +156,15 @@ int ConfigManager::loadConfiguration(void)
 * 	0	on success (and return in value the Value of
 * 		the key associated)
 */
-int ConfigManager::getValue(string &key, string &value);
+int ConfigManager::getValue(string &key, string &value)
+{
+	if(this->valuesHash.find(key) == this->valuesHash.end())
+		return -1;
+	
+	value = this->valuesHash[key];
+	
+	return 0;
+}
 
 /* empty destructor */
 ConfigManager::~ConfigManager(void)
