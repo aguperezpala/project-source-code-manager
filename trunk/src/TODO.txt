@@ -33,6 +33,9 @@ FEATURES
 de CObjects en vez de cada uno de los distintos elementos).
 * Setear el atributo de testeado en numero en vez de verdadero o falsa, 
 osea, poder determinar que tanto fue testeado un modulo o funcion.
+* Linkear Issue con las Functions, y poder determinar en que linea de codigo
+y archivo esta cada Issue (igual para las funciones).
+* Soporte subversion.
 
 
 

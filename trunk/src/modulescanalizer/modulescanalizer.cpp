@@ -1,173 +1,256 @@
-#include "configmanager.h"
+#include "modulescanalizer.h"
 
+/*! ###			PRIVATE FUNCTIONS			### */
 
-/* Read a file. FIXME: (this its duplicated in FileManager)
-* RETURNS:
-* 	< 0	on error
-* 	0 	if succes (and returns the data into result)
+/* Function wich extracts all the Comments from the data to
+	* analize and inserts it in a list.
+	* Use the ConfigManager to know how the comments are formed
+	*/
+void ModuleSCAnalizer::createCommentList(void);
+
+/* Used to clean all the class data (attributes).
+* NOTE: This NOT free the data.  
 */
-int ConfigManager::readFile(string &fn, string &result)
+void ModuleSCAnalizer::freeAndCleanAll(void)
 {
-	int length;
-	char *buffer = NULL;
-	ifstream is;
+	list<Module *>::iterator mIt;
+	list<Function *>::iterator fIt;
+	list<Issue *>::iterator iIt;
+	list<Notes *>::iterator nIt;
 	
+	this->commentList.clear();
+	/* the Module list last parse */
+	for(mIt = this->modList.begin(); mIt != this->modList.end(); ++mIt)
+		if((*mIt) != NULL)
+			delete (*mIt);
+	this->modList.clear();
 	
-	if(fn.length() <= 0)
-		return -1;
+	for(fIt = this->funcList.begin(); fIt != this->funcList.end(); ++fIt)
+		if((*fIt) != NULL)
+			delete (*fIt);
+	this->funcList.clear();
 	
+	for(iIt = this->issueList.begin(); iIt != this->issueList.end(); ++iIt)
+		if((*iIt) != NULL)
+			delete (*iIt);
+	this->issueList.clear();
 	
-	is.open (fn.c_str(), ios::binary);
-	
-	if(!is.good())
-		return -1;
-	
-	// get length of file:
-	is.seekg (0, ios::end);
-	length = is.tellg();
-	is.seekg (0, ios::beg);
-	
-	// allocate memory:
-	buffer = new char[length];
-	if(!buffer)
-		return -1;
-	
-	// read data as a block:
-	is.read (buffer,length);
-	is.close();
-	
-	result = buffer;
-	delete[] buffer;
-	
-	return 0;
+	for(nIt = this->noteList.begin(); nIt != this->noteList.end(); ++nIt)
+		if((*nIt) != NULL)
+			delete (*nIt);
+	this->noteList.clear();
 }
 
-/* Function wich removes all the comments from the data
+/* This method extract all the Keys (patterns) and returns
+* a list of the results. In case that a pattern couldn't
+* be finded, then the corresponding result will be filled
+* with an empty string ("").
+* NOTE: For precaution only pass one comment (NOT ALL THE DATA).
 * REQUIRES:
-* 	data
-* 	cB	(commentBegin string)
-* 	cE	(commentEnd string)
-*/
-void ConfigManager::removeComments(string &data, string &cB, string &cE)
-{
-	size_t bPos = 0, ePos = 0;
-	
-	/* we will start to extract the comments */
-	while(1) {
-		bPos = data.find(cB, bPos);
-		
-		if(bPos == string::npos)
-			/* nothing else to extract */
-			break;
-		
-		ePos = data.find(cE, bPos + 1);
-		if(bPos == string::npos)
-			/* mmm, we gonna extract this, it cannot be posible */
-			ePos = data.length();
-		else
-			ePos = ePos + cE.length();
-		
-		/* do the erase */
-		
-		data.erase(bPos, ePos - bPos);
-		
-	}
-}
-
-
-/* consturctor */
-ConfigManager::ConfigManager(void)
-{
-	CONFIGM_KEY_LIST /* the list of keys */
-	int i = 0;
-	
-	
-	while(keyList[i].length() > 0) {
-		/* insert dummys strings */
-		this->valuesHash[keyList[i]] = "";
-		i++;
-	}
-}
-
-
-/* Function to load the values of the associated keys from
-* the config file.
+* 	comment		(the comment where it is the "function")
+* 	patternList	(the Keys to search an parse)
+* 	resultList	(the list where be added the results)
 * RETURNS:
-* 	< 0 	on error (couldn't open the file)
-* 	0	on success
+* 	< 0		on error
+* 	0		if success
 */
-int ConfigManager::loadConfiguration(void)
+int ModuleSCAnalizer::parsePatterns(string &comment, list<string> &patternList, 
+			list<string> &resultList)
 {
-	/* for the moment this will be a ugly implementation but it will work */
-	string data = "";
-	string commentB = CONFIGM_COMMENT_STR, commentE = "\n";
-	string key = "", value = "", line = "";
-	size_t bPos = 0, eolP = 0;
-	size_t eqPos = 0;
 	
 	
-	
-	if(readFile(this->fname, data) < 0)
-		/* no file name */
-		return -1;
-	
-	/* now we extract the comments, and let the clean data.. */
-	removeComments(data, commentB, commentE);
-	
-	/* now to have a clean parse we append a \n */
-	if(data[data.length()-1] != '\n')
-		data.append("\n");
-	
-	/* here we have the clean file, now extract the values of the vars 
-	 * NOTE: we aren't recognizing the differents sectiosn [Section1] */
-	while(1){
-		eolP = data.find('\n', bPos);
-		
-		if(eolP == string::npos)
-			break;
-		
-		line = data.substr(bPos, eolP - bPos);
-		bPos = eolP + 1;
-		
-		// now we extract the key and the value 
-		eqPos = line.find("=");
-		if(eqPos == string::npos)
-			continue;
-		
-		key = line.substr(0,eqPos);
-		value = line.substr(eqPos + 1, line.length() - eqPos - 1);
-		
-		// insert the value if there are a key equivalent
-		if(this->valuesHash.find(key) == this->valuesHash.end())
-			// there isnt... debug("the key dsnt match...")
-			continue;
-		else
-			this->valuesHash[key] = value;
-	}
-	
-	
-	return 0;
 }
 
-/* Function to return a specific string from the config
-* file.
+
+/* Function to create a function from a patternList and the 
+	* associated valuesList.
+	* REQUIRES:
+	* 	patternList	(indicates the list of "fields"
+	* 	valuesList	(the corresponding values to the patterns)
+	* RETURNS:
+	* 	NULL		on error
+	* 	obj		on success
+	*/
+Function *ModuleSCAnalizer::getFunction(list<string> &patternList, 
+			list<string> &valuesList);
+
+/* Function to create a function from a patternList and the 
+	* associated valuesList.
+	* REQUIRES:
+	* 	patternList	(indicates the list of "fields"
+	* 	valuesList	(the corresponding values to the patterns)
+	* RETURNS:
+	* 	NULL		on error
+	* 	obj		on success
+	*/
+Module *ModuleSCAnalizer::getModule(list<string> &patternList, 
+			list<string> &valuesList);
+			
+/* Function to create a Issue from a patternList and the 
+	* associated valuesList.
+	* REQUIRES:
+	* 	patternList	(indicates the list of "fields"
+	* 	valuesList	(the corresponding values to the patterns)
+	* RETURNS:
+	* 	NULL		on error
+	* 	obj		on success
+	*/
+Issue *ModuleSCAnalizer::getIssue(list<string> &patternList, 
+			list<string> &valuesList);
+
+
+/* Function to create a note from a patternList and the 
+	* associated valuesList.
+	* REQUIRES:
+	* 	patternList	(indicates the list of "fields"
+	* 	valuesList	(the corresponding values to the patterns)
+	* RETURNS:
+	* 	NULL		on error
+	* 	obj		on success
+	*/
+Note *ModuleSCAnalizer::getNote(list<string> &patternList, 
+			list<string> &valuesList);
+
+
+
+/*! ###			PUBLIC FUNCTIONS			### */
+
+/* consturctor: */
+ModuleSCAnalizer::ModuleSCAnalizer(void)
+{
+	this->cm = NULL;
+	this->data = NULL;
+}
+/* Constructor with the ConfigManager wich be used 
+* REQUIRES;
+* 	configM		!= NULL
+* NOTE: this class will no delete the configManager
+*/
+ModuleSCAnalizer::ModuleSCAnalizer(ConfigManager *configM)
+{
+	assert(configM != NULL);
+	
+	this->cm = configM;
+	this->data = NULL;
+}
+
+/* Function to set the config manager
+* NOTE: the configManager shouldnt be deleted in the 
+*	ModuleSCAnalizer life cycle.
+* REQUIRES:
+* 	configM		!= NULL
+*/
+void ModuleSCAnalizer::setConfigManager(ConfigManager *configM)
+{
+	assert(configM != NULL);
+	this->cm = configM;
+}
+
+/* Function to set the data to analize (all the source of a 
+* module, or whatever else).
+* The data passed couldn't be recovered, this class is now
+* the owner (and will used and deleted here).
+* NOTE: If a data was seted before, it will overwrite it 
+* (freeing the other one).
+* 
+* REQUIRES:
+*	data	!= NULL 
+*/
+void ModuleSCAnalizer::setDataToAnalize(string *d)
+{
+	assert(d != NULL);
+	
+	if(this-data != NULL)
+		delete this->data;
+	
+	this->data = d;
+}
+
+/*! This function will analize the data seted before.
+* 
+* Functionality: It will extract all the Functions, Notes, 
+* Issues, and a Module info, and will save it in new objects
+* wich will can be obtained by the respectives methods.
+* And all the elements wich contains* this class will be 
+* freeded to. (so extract it before call this function).
+* NOTE: The data will be lost (this call could be done once
+* per data setted, this its for performance purposes)
+* 
+* REQUIRES:
+* 	have seted the ConfigManager
+* 	have seted data To analize
 * RETURNS:
-* 	< 0	if error
-* 	0	on success (and return in value the Value of
-* 		the key associated)
+* 	< 0		on error
+* 	numItems	the number of items extracted/created
 */
-int ConfigManager::getValue(string &key, string &value)
+int ModuleSCAnalizer::analizeData(void)
 {
-	if(this->valuesHash.find(key) == this->valuesHash.end())
-		return -1;
 	
-	value = this->valuesHash[key];
+	// check if we have a configManager or data seted.. 
+	assert(this->cm != NULL);
+	assert(this->data != NULL);
 	
-	return 0;
+	// we do a complete clean
+	freeAndCleanAll();
+	
+	// create the comments list (we will work over this list)
+	// FIXME: this it is the inefficient way... IMPROVE this :)
+	createCommentList();
+	delete data; data = NULL;
+	
+	
 }
 
-/* empty destructor */
-ConfigManager::~ConfigManager(void)
-{
-	/* nothing */
-}
+
+/*!	Function associated to the elements parsed
+* All this functions once retrieved an element, the elements
+* belongs to the class wich asked it (so its responsability of
+* this class to freeit, the ModuleSCAnalizer isnt anymore the
+* owner of the object 
+*/
+
+
+/* Function to retrive a Module parsed (if there was one)
+* RETURNS:
+* 	NULL		if no Modules was parsed (or there are
+* 			no more Modules)
+* 	mod != NULL	if a Module was parsed
+*//*!NOTE: if there are more than 1 module => we have to 
+* divide the functions in the corresponding modules...
+* So... write one module per file or "data" :) */
+Module *ModuleSCAnalizer::getModule(void);
+int ModuleSCAnalizer::getModuleCount(void);
+
+/* Function to retrive a Function parsed (if there was one)
+* RETURNS:
+* 	NULL		if no Function was parsed (or there are
+* 			no more Functions)
+* 	func != NULL	if a Function was parsed
+*/
+Function *ModuleSCAnalizer::getFunction(void);
+int ModuleSCAnalizer::getFunctionCount(void);
+
+/* Function to retrive a Issue parsed (if there was one)
+* RETURNS:
+* 	NULL		if no Issue was parsed (or there are
+* 			no more Issue)
+* 	issue != NULL	if a Issue was parsed
+*/
+Issue *ModuleSCAnalizer::getIssue(void);
+int ModuleSCAnalizer::getIssueCount(void);
+
+/* Function to retrive a Note parsed (if there was one)
+* RETURNS:
+* 	NULL		if no Note was parsed (or there are
+* 			no more Note)
+* 	note != NULL	if a Note was parsed
+*/
+Note *ModuleSCAnalizer::getNote(void);
+int ModuleSCAnalizer::getNoteCount(void);
+
+
+
+/* Destructor:
+* Free all the memory allocated, execpt the ConfigManager
+*/
+ModuleSCAnalizer::~ModuleSCAnalizer(void);
