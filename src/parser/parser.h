@@ -9,119 +9,26 @@
 #include <string.h>
 #include <assert.h>
 
-
-/*! vamos a definir las palabras claves para buscar los pesos y esas cosas */
-#define MODULE_WEIGHT	"MODULE_WEIGHT"
-#define FUNC_COMPLETED	"FUNC_COMPLETED"
-#define FUNC_TESTED	"FUNC_TESTED"
-#define FUNC_WEIGHT	"FUNCTION_WEIGHT"
-#define MODULE_TESTED	"MODULE_TESTED"
-
-#define VALUE_SEPARATOR ";"
-#define VALUE_ASSIGN	"="
 #define PARSER_BLANKS	"\n\t "
 
 
 using namespace std;
 
 
-/* Function wich removes all the comments from the data
-* REQUIRES:
-* 	data
-* 	cB	(commentBegin string)
-* 	cE	(commentEnd string)
-*/
-void parer_extract_comments(string &data, string &cB, string &cE);
-
-/* Function wich returns the position of the first character finded from the
- * list of characters cList
+/* Extract a value from a key, To much parameters...
  * REQUIRES:
- * 	data		(where we gonna search for the chars)
- * 	cList		(the list of characters to be searched for)
+ * 	data		data where be searched the key
+ * 	pos		from where it will be searched
+ * 	key		the to looking for
+ * 	eqStr		the "assignation" string (KEY = VALUE, where eqStr is =)
+ * 	endStr		the string used to delimit the end of the str.
  * RETURNS:
- * 	string::npos	if not found
- *	pos		if some of the characters was found 
+ * 	ePos		the position of the last character of the endStr mattched
+ * 	< 0		on error
+ * 	value		(the value, on no error cases)
  */
-size_t parser_get_char_pos(string &data, string &cList);
-
-
-/*! Funcion que devuelve un valor determinado segun un nombre de una KEY
-* determinada. 
-* NOTE: Usa VALUE_SEPARATARO VALUE_ASSIGN & PARSER_BLANKS
-* REQUIRES:
-* 	data	where search
-* 	key	to find
-* 	value	to fill
-* RETURNS:
-* 	0 	if success
-* 	< 0	otherwise
-*/
-int parser_search_key(string &data, string &key, string &value);
-
-/*! funcion que parsea un value entre 2 elementos
-* RETURNS:
-*  	< 0	on error
-*  	0	on success
-*/
-int getValue(string &d, int from, const char *beg, const char *end, string &value);
-
-/*! Funcion que extrae una palabra desde una posicion determinada (from) 
-*  saltiandose todos los caracteres pertenecientes a charsTo y luego
-*  tomando todos aquellos caracteres hasta encontrar nuevamente otro € chartsTo
-* REQUIRES:
-* 	from	<= data.size()
-*	charsTo	!= NULL
-* RETURNS:
-* 	word	!= NULL if success
-* 	NULL	otherwise
-* NOTE: genera memoria
-*/
-string *parse_word(string &data, uint32_t from, const char *charsTo);
-
-
-/*! Funcion que parsea un comentario devolviendolo en un string, buscando
-* desde una posicion determinada, con 2 strings necesarios, uno para 
-* especificar como comienza un comentario, y el otro determinando como
-* termina el comentario.
-* NOTE: devuelve el comentario sin los caracteres de comentarios
-* REQUIRES:
-* 	from <= data.size()
-* 	openComment != NULL
-* 	closeComment != NULL
-* RETURNS:
-* 	NULL		if cant find or error
-* 	comment		otherwise
-* 	from		devuelve la posicion donde termina el comentario
-*/
-string *parser_get_comment(string &data, int &from, 
-			    string &openComment, string &closeComment);
-
-
-/*! Funcion que parsea un todos los comentarios que encuentra comenzando
-* desde from y terminando en to, los guarda en una lista y los devuelve 
-* NOTE: devuelve el comentario sin los caracteres de comentarios
-* REQUIRES:
-* 	from 	<= to
-* 	to	<= data.size()
-* 	openComment != NULL
-* 	closeComment != NULL
-* RETURNS:
-* 	NULL		if cant find or error
-* 	comment		otherwise
-*/
-list<string> *parser_get_comments(string &data, int from, int to,
-			    string &openComment, string &closeComment);
-
-
-/*! funcion que saltea los caracteres cs y devuelve la posicion luego de saltear
- * los caracteres especificados
- * REQUIRES:
- * 	cs != NULL
- * RETURNS:
- * 	< 0	on error
- * 	pos	otherwise
- */
-int parser_jump_chars(string &d, int from, const char* cs);
+int parser_extract_value(string &data, size_t pos, string &key, string &eqStr,
+			 string &endStr, string &value);
 
 
 

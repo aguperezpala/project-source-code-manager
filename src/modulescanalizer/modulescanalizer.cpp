@@ -57,6 +57,12 @@ void ModuleSCAnalizer::freeAndCleanAll(void)
 int ModuleSCAnalizer::parsePatterns(string &comment, list<string> &patternList, 
 			list<string> &resultList)
 {
+	int i = 0;
+	
+	// we do some minimun check
+	if((comment.length() <= 1) || (patternList.size() == 0))
+		// nothing to do, so you are calling this function without sense
+		return -1;
 	
 	
 }
