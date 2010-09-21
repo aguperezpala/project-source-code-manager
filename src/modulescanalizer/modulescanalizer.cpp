@@ -57,28 +57,58 @@ void ModuleSCAnalizer::freeAndCleanAll(void)
 int ModuleSCAnalizer::parsePatterns(string &comment, list<string> &patternList, 
 			list<string> &resultList)
 {
-	int i = 0;
+	string endStr, eqStr, cmKey;
+	string value;
+	list<string>::iterator it;
+	
+	
+	// pre condition
+	assert(this->cm != NULL);
 	
 	// we do some minimun check
 	if((comment.length() <= 1) || (patternList.size() == 0))
 		// nothing to do, so you are calling this function without sense
 		return -1;
 	
+	// now we set the "enviroment"
+	cmKey = "END_VALUE_STRING";
+	if(this->cm->getValue(cmKey, endStr) < 0){
+		debug("cannot get value\n");
+		return -1;
+	}
+	eqStr = ASSIGN_STRING;
 	
+	// now parse all the patterns
+	resultList.clear();
+	for(it = patternList.begin(); it != patternList.end(); ++it) {
+		if(parser_extract_value(comment, 0, (*it), eqStr, endStr, value) < 0){
+			debug("Cannot parse the %s key\n", (*it).c_str());
+			value = "";
+		}
+		
+		// we always add a result, empty or not, dosnt matter
+		resultList.push_back(value);
+	}
+	
+	return 0;
 }
 
 
 /* Function to create a function from a patternList and the 
-	* associated valuesList.
-	* REQUIRES:
-	* 	patternList	(indicates the list of "fields"
-	* 	valuesList	(the corresponding values to the patterns)
-	* RETURNS:
-	* 	NULL		on error
-	* 	obj		on success
-	*/
+* associated valuesList.
+* REQUIRES:
+* 	patternList	(indicates the list of "fields"
+* 	valuesList	(the corresponding values to the patterns)
+* RETURNS:
+* 	NULL		on error
+* 	obj		on success
+*/
 Function *ModuleSCAnalizer::getFunction(list<string> &patternList, 
-			list<string> &valuesList);
+			list<string> &valuesList)
+{
+	Function *result = NULL;
+	
+}
 
 /* Function to create a function from a patternList and the 
 	* associated valuesList.

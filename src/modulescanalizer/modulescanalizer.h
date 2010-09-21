@@ -21,7 +21,6 @@
 #include "issue.h"
 
 
-
 using namespace std;
 
 

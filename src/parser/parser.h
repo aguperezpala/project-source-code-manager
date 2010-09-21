@@ -15,6 +15,22 @@
 using namespace std;
 
 
+/*! Funcion que parsea un todos los comentarios que encuentra comenzando
+* desde from y terminando en to, los guarda en una lista y los devuelve 
+* NOTE: devuelve el comentario sin los caracteres de comentarios
+* REQUIRES:
+* 	from 	<= to
+* 	to	<= data.size()
+* 	openComment != NULL
+* 	closeComment != NULL
+* RETURNS:
+* 	NULL		if cant find or error
+* 	comment		otherwise
+*/
+list<string> *parser_get_comments(string &data, int from, int to,
+				  string &openComment, string &closeComment);
+
+
 /* Extract a value from a key, To much parameters...
  * REQUIRES:
  * 	data		data where be searched the key
