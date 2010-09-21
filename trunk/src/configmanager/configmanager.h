@@ -38,7 +38,9 @@ using namespace std;
 /* define the string wich represents the start of a comment in the config file */
 #define CONFIGM_COMMENT_STR		"#"
 
-
+/* We gonna define the string o char used to assign, used for parse the values 
+ * on the source code files */
+#define ASSIGN_STRING			"="
 
 
 class ConfigManager {
