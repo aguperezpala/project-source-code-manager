@@ -4,13 +4,9 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include <stringstream>
+#include <sstream>
 #include <time.h>
-/* own libs */
-#include "cobject.h"
-#include "parser.h"
-#include "ssxmlparser.h"
-
+#include "identifiableobject.h"
 
 using namespace std;
 
@@ -35,11 +31,11 @@ enum {
 	ISSUE_S_CHECKED		/* tarea vista/chequeada */
 };
 
-class Issue : public CObject {
+class Issue : public IdentifiableObject  {
 	
 	public:
 		/* constructor */
-		Issue(){};
+		Issue();
 				
 		/* setea/obtiene la descripcion */
 		void setDescription(string &d){this->desc = d;};
@@ -72,18 +68,6 @@ class Issue : public CObject {
 		int getPriority(void){return this->priority;};
 		void getStringPriority(string &p);
 		
-		
-		/*! Virtual method to convert the object in a XML string. */
-		void toXML(string &result);
-		
-		/*! Virtual method to import the object from a XML string 
-		* RETURNS:
-		* 	< 0	on error
-		* 	0	if success
-		*/
-		int fromXML(strnig &xml);
-		
-
 		~Issue(){};
 		
 		/*debug*/

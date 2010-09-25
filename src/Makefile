@@ -65,17 +65,18 @@ MY_LIBS   =
 # The pre-processor options used by the cpp (man cpp for more).
 CPPFLAGS  = -Wall -ansi -pedantic -Werror -I. -Idataobjects/note \
 -Idataobjects/function -Idataobjects/issue -Idataobjects/module -Iparser \
--Idataobjects/project -Ifilemanager -Issxmlparser \
--Idataobjects/requirements -Iconfigmanager
+-Idataobjects/project -Ifilemanager -Issxmlparser -Idataobjects/identifiableobject \
+-Idataobjects/requirement -Iobjectmanager -Iconfigmanager
 
 # The options used in linking as well as in any direct use of ld.
 LDFLAGS   = 
 
 # The directories in which source files reside.
 # If not specified, only the current directory will be serached.
-SRCDIRS   = . dataobjects/note dataobjects/function dataobjects/issue \
-dataobjects/module parser dataobjects/project filemanager \
-searcher ssxmlparser dataobjects/requirements configmanager
+SRCDIRS   = . dataobjects/identifiableobject dataobjects/function dataobjects/issue \
+dataobjects/note dataobjects/module parser dataobjects/project filemanager \
+ssxmlparser objectmanager dataobjects/requirement configmanager \
+
 
 # The executable file name.
 # If not specified, current directory name or `a.out' will be used.
