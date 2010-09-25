@@ -3,10 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include "identifiableobject.h"
 
 using namespace std;
 
-class Note {
+class Note : public IdentifiableObject {
 	
 	public:
 		/* constructor */

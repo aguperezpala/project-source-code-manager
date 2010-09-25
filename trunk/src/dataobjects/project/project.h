@@ -4,20 +4,20 @@
 #include <iostream>
 #include <string>
 
+#include "identifiableobject.h"
 #include "module.h"
 #include "note.h"
-#include "task.h"
-#include "parser.h"
-#include "file_aux.h"
+#include "issue.h"
 
 
 using namespace std;
 
-class Project {
+class Project : public IdentifiableObject {
 	
 	public:
 		/* constructor */
-		Project();
+		Project(string &dir);
+		
 		
 		/* set/get project dir */
 		void setDir(string &d){this->projDir = d;};
@@ -50,6 +50,12 @@ class Project {
 		*/
 		void addModule(Module *module);
 		
+		/* Remove the module from the project
+		* REQUIRES:
+		* 	obj 	!= NULL
+		*/
+		void removeModule(Module *obj);
+		
 		/* Funcion que devuelve la lista de notas */
 		list<Note *> &getNotes(void){return this->noteList;};
 		
@@ -60,15 +66,27 @@ class Project {
 		*/
 		void addNote(Note *note);
 		
-		/* Funcion que devuelve la lista de tareas */
-		list<Task *> &getTasks(void){return this->taskList;};
-		
-		/* Funcion que permite agregar una tarea relacionada al modulo
+		/* Remove the note from the project
 		* REQUIRES:
-		* 	t 	!= NULL
-		* NOTE: No debe ser liberada la tarea una vez agregada 
+		* 	obj 	!= NULL
 		*/
-		void addTask(Task *t);
+		void removeNote(Note *obj);
+		
+		/* Function to retrieve the issue list */
+		list<Issue *> &getIssues(void){return this->issuesList;};
+		
+		/* Function used to add a Issue to the project
+		* REQUIRES:
+		* 	i 	!= NULL
+		* NOTE: The issue doesn't have to be deleted
+		*/
+		void addIssue(Issue *i);
+		
+		/* Remove the issue from the project
+		 * REQUIRES:
+		 * 	obj 	!= NULL
+		 */
+		void removeIssue(Issue *obj);
 		
 		/*! Funcion que devuelve el porcentaje de completado del proyecto
 		* teniendo en cuenta los porcentajes de los pesos y cuanto
@@ -76,92 +94,21 @@ class Project {
 		*/
 		float getCompleted(void);
 		
-		/*! Genera un proyecto desde un string respetando el formato
-		* asignado para guardar los proyectos
-		* Carga tanto las notas como las tareas y los modulos
-		* RETURNS:
-		* 	< 0	on error
-		*	0	if success
-		*/
-		int fromString(string &str);
 		
-		/*! Convierte un proyecto en un string listo para ser guardado
-		* en un archivo.
-		* Guarda todo, las notas como las tareas.. y los modulos
-		* RETURNS:
-		*	NULL		if error
-		*	strNote		otherwise
-		* NOTE: Genera memoria
-		*/
-		string *toString(void);
-		
-		/* Destructor:
-		 * NOTE: libera la memoria asociada a todos los modulos y 
-		 * las demas cosas
-		 */
+		/* Destructor: empty destructor */
 		~Project();
 		
 		/* debug */
 		void Print(void);
 	
 	private:
-		/* funcion que genera un string de notas respetando el formato 
-		* partiendo de la lista de notas noteList 
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseNoteFromList(string &result);
-		
-		/* funcion que llena la lista desde un string que respete el
-		*  formato de las notas
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseNoteToList(string &result);
-		
-		/* funcion que genera un string de tasks respetando el formato 
-		* partiendo de la lista de tareas taskList 
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseTasksFromList(string &result);
-		
-		/* funcion que parsea un string que respete el formato de tasks
-		* para llenar la lista
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseTasksToList(string &result);
-		
-		/* funcion que genera un string de modules respetando el formato 
-		* partiendo de la lista de modulos modulesList 
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseModulesFromList(string &result);
-		
-		/* funcion que parsea un string que respete el formato de modules
-		* para llenar la lista modulesList
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseModulesToList(string &result);
-		
-		
-		
 		string name;
 		string desc;
 		string projDir;
 		bool tested;
 		bool canCompile;
 		list<Module *> moduleList;
-		list<Task *> taskList;
+		list<Issue *> issuesList;
 		list<Note *> noteList;
 		
 	

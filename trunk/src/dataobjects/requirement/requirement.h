@@ -10,18 +10,25 @@
 #include <iostream>
 #include <stdio.h>
 /* own libs */
-#include "moodule.h"
-#include "function.h"
-#include "cobject.h"
+#include "identifiableobject.h"
+#include "module.h"
+#include "issue.h"
 
+using namespace std;
 
 /* We gonna define some possible states that can be the requirement*/
+enum {
+	REQ_ST_DONE,		/* requeriment done */
+	REQ_ST_OBSOLET,		/* requirement obsolet */
+	REQ_ST_NOT_COMPLIED	/* requirement waiting to be done :) */
+};
 
-class Requirement : public CObject {
+class Requirement : public IdentifiableObject {
 	
 	public:
 		/* empty consturctor */
 		Requirement(void);
+		Requirement(string &title, string &desc, int status);
 		
 		/* Function to set the description of the requirement
 		 * REQUIRES:
@@ -39,11 +46,17 @@ class Requirement : public CObject {
 		int getStatus(void){return this->status;};
 		void setStatus(int st){this->status = st;};
 		
-		/* Function to add a function who the requirements depends of
+		/* Function to add a issue who the requirements depends of
 		 * REQUIRES:
-		 * 	func	!= NULL
+		 * 	issue	!= NULL
 		 */
-		void addFuncDependency(Function *func);
+		void addIssueDependency(Issue *issue);
+		
+		/* Removes the issue dependency (do not free the memory)
+		 * REQUIRES:
+		 * 	issue != NULL
+		 */
+		void removeIssueDependency(Issue *issue);
 		
 		/* Function to add a module who the requirements depends of
 		 * REQUIRES:
@@ -51,8 +64,11 @@ class Requirement : public CObject {
 		 */
 		void addModuleDependency(Module *mod);
 		
-		/*! FIXME: we have to add the 2 virtual methods inherited from 
-		 * the CObject class. */
+		/* Removes the module dependency (do not free the memory)
+		* REQUIRES:
+		* 	mod != NULL
+		*/
+		void removeModuleDependency(Module *mod);
 		
 		/* empty destructor */
 		~Requirement(void);
@@ -64,8 +80,8 @@ class Requirement : public CObject {
 		string title;
 		/* status of the requirement */
 		int status;
-		/* the list of the function dependencies */
-		list<Function *> funcDependenciesList;
+		/* the list of the Issues dependencies */
+		list<Issue *> issueDependenciesList;
 		/* the list of the modules dependencies */
 		list<Module *> moduleDependenciesList;
 		

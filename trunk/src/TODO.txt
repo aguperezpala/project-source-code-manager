@@ -41,10 +41,9 @@ y archivo esta cada Issue (igual para las funciones).
 
 FALTA HACER
 ------------
-* Estamos haciendo ConfigManager (FIXME: complete this function)
-
-* Reimplementar en todas las clases los metodos virtuales toXml() \ fromXml()
-a cada uno de los objetos.
+* Hacer cada uno de los ObjectManager (usando template para definir la clase
+generica). Cada uno de estos manager es practicamente un map del cual se puedan
+agregar y extraer objetos segun el ID.
 
 * Interfaz grafica, un widget para cada clase:
 	- Project (cambiar nombres de archivos, tienen task)

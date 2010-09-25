@@ -6,12 +6,10 @@
 #include <string>
 #include <assert.h>
 
+#include "identifiableobject.h"
 #include "function.h"
-#include "task.h"
+#include "issue.h"
 #include "note.h"
-#include "parser_aux.h"
-#include "file_aux.h"
-#include "CObject.h"
 
 
 using namespace std;
@@ -24,7 +22,7 @@ enum {
 	MODULE_T_UNKNOWN	/* que lo que */
 };
 
-class Module : public CObject {
+class Module : public IdentifiableObject  {
 	
 	public:
 		/* constructor */
@@ -96,26 +94,27 @@ class Module : public CObject {
 		* modulo. */
 		bool existNote(Note *t);
 		
-		/* Funcion que devuelve la lista de tareas */
-		list<Task *> &getTasks(void){return this->taskList;};
+		/* Returns the issues list */
+		list<Issue *> &getIssues(void){return this->issuesList;};
 		
-		/* Funcion que permite agregar una tarea relacionada al modulo
+		/* Functio used to add a issue associated to the module
 		* REQUIRES:
-		* 	t 	!= NULL
-		* NOTE: No debe ser liberada la tarea una vez agregada 
+		* 	i 	!= NULL
+		* NOTE: Do not free the issue once added
 		*/
-		void addTask(Task *t);
+		void addIssue(Issue *t);
 		
-		/* funcion que libera una task de la lista liberando tambien
-		* la memoria.
+		/* Remove a issue associated to the module and free their memory
 		* REQUIRES:
-		* 	task != NULL
+		* 	issue != NULL
 		*/
-		void removeTask(Task *task);
+		void removeIssue(Issue *issue);
 		
-		/* Funcion que determina si ya existe una tarea en el 
-		 * modulo. */
-		bool existTask(Task *t);
+		/* Function used to check if a issue is associated to the module
+		 * REQUIRES:
+		 * 	i	!= NULL
+		 */
+		bool existIssue(Issue *i);
 		
 		/*! Funcion que devuelve el porcentaje de completado del modulo
 		 * teniendo en cuenta los porcentajes de las funciones que
@@ -124,102 +123,20 @@ class Module : public CObject {
 		float getCompleted(void);
 		
 		
-		/* Funcion que actualiza el modulo (funciones, peso, etc) desde
-		* el archivo al cual tiene asignado (fname)
-		* RETURNS:
-		* 	< 0	on error
-		* 	 0	if success
-		*/
-		int actualize(void);
-		
-		/*! Genera un modulo desde un string respetando el formato
-		* asignado para guardar los modulos
-		* Carga tanto las notas como las tareas y las funciones
-		* RETURNS:
-		* 	< 0	on error
-		*	0	if success
-		*/
-		int fromString(string &str);
-		
-		/*! Convierte un modulo en un string listo para ser guardado
-		* en un archivo.
-		* Guarda todo, las notas como las tareas..
-		* RETURNS:
-		*	NULL		if error
-		*	strNote		otherwise
-		* NOTE: Genera memoria
-		*/
-		string *toString(void);
-		
-		/* destructor:
-		 * NOTE: Libera toda la memoria relacionada con las listas
-		 * y tareas, etc
-		 */
+		/* destructor: empty destructor */
 		~Module();
 		
 		/* DEBUG */
 		void Print(void);
 	
 	private:
-		/*			Funciones			*/
-		
-		/* Funcion que lee el archivo asignado al modulo y extrae
-		 * el nombre del modulo, funciones, etc, todo menos las notas
-		 * y las tasks
-		 * RETURNS:
-		 * 	< 0	if error
-		 *	0	on success
-		 */
-		int loadFromFile(void);
-		
-		/* Funcion que libera todas Funciones asociadas */
-		void freeFunctions(void);
-		
-		/* funcion que libera todas las notas asociadas */
-		void freeNotes(void);
-		
-		/* funcion que libera todas las tasks asociads */
-		void freeTasks(void);
-		
-		/* funcion que genera un string de notas respetando el formato 
-		 * partiendo de la lista de notas noteList 
-		 * RETURNS:
-		 * 	< 0 	on error
-		 * 	0	if success
-		 */
-		int parseNoteFromList(string &result);
-		
-		/* funcion que llena la lista desde un string que respete el
-		*  formato de las notas
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseNoteToList(string &result);
-		
-		/* funcion que genera un string de tasks respetando el formato 
-		* partiendo de la lista de tareas taskList 
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseTasksFromList(string &result);
-		
-		/* funcion que parsea un string que respete el formato de tasks
-		* para llenar la lista
-		* RETURNS:
-		* 	< 0 	on error
-		* 	0	if success
-		*/
-		int parseTasksToList(string &result);
-		
 		
 		/*			Atributos			*/
 		int weight;	/* peso del modulo en el proyecto */
 		string name;
 		string fname;	/* file name */
 		list<Function *> funcList;
-		list<Task *> taskList;
+		list<Issue *> issuesList;
 		list<Note *> noteList;
 		bool canCompile;
 		bool tested;
