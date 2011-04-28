@@ -28,13 +28,30 @@ int main(int argc, char **args)
 
 	std::cout << "RootFoldeR: " << folder << std::endl;
 
-	FileManager::getInstance()->getAllFolders(folder, folderList);
+	ASSERT(FileManager::getInstance()->getAllFolders(folder, folderList));
 
 	std::cout << "Printing folders from: " << folder << std::endl;
 	for(std::list<std::string>::iterator it = folderList.begin(); it != folderList.end();
 			++it){
 		std::cout << *it << std::endl;
 	}
+
+	folder = "aso";
+
+	ASSERT(FileManager::getInstance()->getAllFolders(folder, folderList) == false);
+
+	folder = "./";
+	std::list<std::string> extList;
+	extList.push_back(".cpp");
+
+	// verificamos que esten los archivos correspondientes aca
+	FileManager::getInstance()->getAllFiles(folder, folderList, extList);
+	std::cout << "Printing files from: " << folder << std::endl;
+	for(std::list<std::string>::iterator it = folderList.begin(); it != folderList.end();
+			++it){
+		std::cout << *it << std::endl;
+	}
+
 
 	return 0;
 }
