@@ -28,6 +28,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/FileManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/SyntaxConfiguration}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/SyntaxAnalizer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/Common/identifiableobject}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.debugging.other.1285727486" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other" value="-DDEBUG" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1025491460" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -38,6 +39,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/FileManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/SyntaxConfiguration}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/SyntaxAnalizer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/Common/identifiableobject}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1708962123" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -54,6 +56,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/FileManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/SyntaxConfiguration}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/SyntaxAnalizer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/project-source-code-manager/src/Common/identifiableobject}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.831099506" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

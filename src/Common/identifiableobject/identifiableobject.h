@@ -11,7 +11,7 @@ typedef int	ObjectId_t;
 class IdentifiableObject {
 
 	// private
-	static int globalID = 0;
+	static int globalID;
 
 	public:
 		/* constructor */
@@ -27,7 +27,6 @@ class IdentifiableObject {
 		ObjectId_t mID;
 	
 };
-
 
 
 
