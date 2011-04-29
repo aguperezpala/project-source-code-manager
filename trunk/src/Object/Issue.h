@@ -40,7 +40,7 @@ public:
 
 	public:
 		/* constructor */
-		Issue();
+		Issue():IObject(IObject::TYPE_ISSUE){};
 				
 		/* setea/obtiene la descripcion */
 		void setDescription(const std::string &d){mDesc = d;};

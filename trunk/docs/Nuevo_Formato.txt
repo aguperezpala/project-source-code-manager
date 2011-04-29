@@ -1,0 +1,21 @@
+Definicion de la sintaxis
+-------------------------
+
+ASSIGNMENT_OPERATOR			=
+TERMINAL_OPERATOR			;
+MULTIVALUE_OPERATOR			|
+
+
+Para definir cosas vamos a seguir la siguiente gramatica (usando los valores
+de arriba).
+
+<KEY> = <value1> | <value2> | .. | <valueN> ;
+
+Donde KEY representa el identificador de todo lo que viene despues hasta
+el TERMINAL_OPERATOR, que en este caso es ;.
+En el caso de usar multivalores para una KEY determinada, lo tenemos que separar
+como se indica.
+
+
+
+

@@ -4,6 +4,7 @@
 /* Constructor para setear todo de una */
 Function::Function(int completed, int weight, bool tested,
 		const std::string &name, const std::string &signature) :
+		IObject(IObject::TYPE_FUNCTION),
 		mCompleted(completed),
 		mWeight(weight),
 		mTested(tested),

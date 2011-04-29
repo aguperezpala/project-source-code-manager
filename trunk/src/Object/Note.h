@@ -16,10 +16,10 @@ class Note : public IObject {
 	public:
 		/* constructor */
 		Note(const std::string &note, const std::string &Title = "")
-		: mNote(note), mTitle(title)
+		: IObject(IObject::TYPE_NOTE), mNote(note), mTitle(title)
 		{};
 		
-		Note(){};
+		Note():IObject(IObject::TYPE_NOTE){};
 		
 		
 		/* setea/obtiene el nombre de la funcion */

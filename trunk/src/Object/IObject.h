@@ -24,7 +24,8 @@ public:
 		TYPE_FUNCTION,
 		TYPE_NOTE,
 		TYPE_ISSUE,
-		TYPE_REQUIREMENT
+		TYPE_REQUIREMENT,
+		TYPE_MODULE
 	} ObjectType_t;
 
 public:
@@ -33,6 +34,11 @@ public:
 	virtual ~IObject() {};
 
 	ObjectType_t getType(void) const {return mType;}
+
+
+private:
+	IObject();
+	IObject(IObject &other);
 
 private:
 	ObjectType_t mType;
