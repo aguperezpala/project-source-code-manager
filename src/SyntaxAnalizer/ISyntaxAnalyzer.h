@@ -82,6 +82,13 @@ private:
 	 */
 	int analyzePieceOfData(const std::string &data);
 
+	/* Parse a frase ("<KEY> = <value1> | <value2> | .. | <valueN> ;")
+	 * RETURNS:
+	 * 		0			on success
+	 * 		errcode		otherwise
+	 */
+	int parsePhrase(const std::string &)
+
 private:
 	// The file extension that this SyntaxAnalizer support
 	std::list<std::string> mExtSupported;
