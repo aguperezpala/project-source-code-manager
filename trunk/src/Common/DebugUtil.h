@@ -12,6 +12,7 @@
 
 #ifdef DEBUG
 	#include <assert.h>
+	#include <iostream>
 #include <stdio.h>
 
 	#define ASSERT(x)	assert(x);
