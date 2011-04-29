@@ -16,7 +16,7 @@ class Function : public IObject {
 		Function(int completed, int weight, bool tested,
 				const std::string &name, const std::string &signature = "");
 		
-		Function();
+		Function():IObject(IObject::TYPE_FUNCTION){};
 		
 		/* setea/obtiene el nombre de la funcion */
 		void setName(const std::string &n){mName = n;}

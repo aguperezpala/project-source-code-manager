@@ -29,7 +29,7 @@ public:
 
 public:
 	/* empty consturctor */
-	Requirement(void);
+	Requirement(void):IObject(IObject::TYPE_REQUIREMENT){};
 	Requirement(const std::string &title, const std::string &desc, Status_t status);
 
 	/* Function to set the description of the requirement
@@ -60,10 +60,10 @@ public:
 	~Requirement(void);
 
 private:
-	/* Requirement description */
-	std::string mDescription;
 	/* Requirement title */
 	std::string mTitle;
+	/* Requirement description */
+	std::string mDescription;
 	/* status of the requirement */
 	Status_t mStatus;
 	/* the list of the Object Dependencies */
