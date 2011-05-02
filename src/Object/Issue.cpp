@@ -1,10 +1,5 @@
 #include "Issue.h"
 
-Issue::Issue()
-{
-	// nothing
-}
-
 void Issue::getStringStatus(std::string &s) const
 {
 	if (mStatus == ISSUE_S_DONE)

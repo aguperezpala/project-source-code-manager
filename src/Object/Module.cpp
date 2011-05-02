@@ -7,7 +7,7 @@
 
 #include "Module.h"
 
-Module::Module() {
+Module::Module():IObject(IObject::TYPE_MODULE) {
 	// TODO Auto-generated constructor stub
 
 }

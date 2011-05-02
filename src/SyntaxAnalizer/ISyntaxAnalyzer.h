@@ -40,7 +40,7 @@ public:
 		mSyntaxConf(conf)
 		{ASSERT(conf);};
 
-	/* Removes the SyntaxConfiguration */
+	/* DO NOTHING */
 	virtual ~ISyntaxAnalyzer();
 
 	/* Analyze a module.
@@ -71,23 +71,40 @@ protected:
 	 * In case of error returns errCode.
 	 */
 	virtual int parseModule(const std::string &fName, const std::string &data,
-			std::list<std::string> &toAnalize);
-
+			std::list<std::string> &toAnalize, std::string &error);
 
 private:
-	/* Analyze a piece of data.
+
+	/* Auxiliar function to remove all the iobjects from a list */
+	inline void cleanIObjectsList(std::list<IObject*> &ioList)
+	{
+		for(std::list<IObject*>::iterator it = ioList.begin(); it != ioList.end();
+				++it){
+			if(*it)
+				delete (*it);
+		}
+	}
+
+	/* Analyze a piece of data and returns the list of IObjects that exists in the
+	 * piece of data.
 	 * RETURNS:
-	 * 	0			on success
+	 * 	0 and list	on success
 	 *  errCode		otherwise
+	 *
+	 *  NOTE: This function allocates memory and not free it
 	 */
-	int analyzePieceOfData(const std::string &data);
+	int analyzePieceOfData(const std::string &data, std::list<IObject*> &objects,
+															std::string &error);
 
 	/* Parse a frase ("<KEY> = <value1> | <value2> | .. | <valueN> ;")
+	 * Returns a list of the values. Empty if have not values
 	 * RETURNS:
 	 * 		0			on success
 	 * 		errcode		otherwise
 	 */
-	int parsePhrase(const std::string &)
+	int parsePhrase(const std::string &phrase, std::list<std::string> &values);
+
+
 
 private:
 	// The file extension that this SyntaxAnalizer support
