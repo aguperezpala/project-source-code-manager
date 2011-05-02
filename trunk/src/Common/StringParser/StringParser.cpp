@@ -92,7 +92,7 @@ size_t StringParser::jumpChars(size_t startPos, const std::string &data,
 												const std::string &jumpChars)
 {
 	while((startPos < data.size()) &&
-			(charArray.find(data[startPos]) != std::string::npos)){
+			(jumpChars.find(data[startPos]) != std::string::npos)){
 		startPos++;
 	}
 

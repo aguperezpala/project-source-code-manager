@@ -6,11 +6,56 @@
  */
 
 #include <algorithm>
+#include <vector>
 
 #include "ISyntaxAnalyzer.h"
 
 
-int ISyntaxAnalyzer::analyzePieceOfData(const std::string &data)
+/* Parse a frase ("<KEY> = <value1> | <value2> | .. | <valueN> ;")
+ * Returns a list of the values. Empty if have not values
+ * RETURNS:
+ * 		0			on success
+ * 		errcode		otherwise
+ */
+/******************************************************************************/
+int ISyntaxAnalyzer::parsePhrase(const std::string &phrase,
+		std::list<std::string> &values)
+{
+	std::string aux;
+	size_t pos = 0;
+	char c;
+
+
+	values.clear();
+
+	while(pos < phrase.size()){
+		pos =  StringParser::getStringUntilChar(pos, MULTIVALUE_OPERATOR
+				TERMINAL_OPERATOR, phrase, c, aux);
+
+		if(std::string(TERMINAL_OPERATOR).find(c) != std::string::npos){
+			// finish.
+			values.push_back(aux);
+			break;
+		}
+
+		values.push_back(aux);
+
+		if(pos == std::string::npos){
+			debug("ERROR: a phrase bad formed ?\n");
+			return -1;
+		}
+
+		// avoid the last char
+		++pos;
+	}
+
+
+	return 0;
+}
+
+/******************************************************************************/
+int ISyntaxAnalyzer::analyzePieceOfData(const std::string &data,
+		std::list<IObject*> &objects, std::string &error)
 {
 	size_t pos = 0;
 
@@ -19,10 +64,15 @@ int ISyntaxAnalyzer::analyzePieceOfData(const std::string &data)
 		return -1;
 	}
 
+	objects.clear();
+
 	IObjectBuilder *builder;
+	IObject *object = 0;
+	std::list<std::string> values;
 	std::string key, phrase;
 	char c;
 	std::map<std::string, IObjectBuilder*>::iterator builderIt;
+
 
 	while(pos <= data.size()){
 		// first jump white characters
@@ -47,13 +97,13 @@ int ISyntaxAnalyzer::analyzePieceOfData(const std::string &data)
 			continue;
 		}
 
-		// we can parse it! so, we have to get all the frase
+		// we can parse it! so, we have to get all the phrase
 		builder = builderIt->second;
 		pos = StringParser::getString(pos, data.size(), ASSIGNMENT_OPERATOR,
 				TERMINAL_OPERATOR, data, phrase);
-		if(builder == std::string::npos){
-			// some problem, there are a syntaxis problem
-			debug("ERROR: There are some syntaxis problem: \ndata: %s"
+		if(pos == std::string::npos){
+			// some problem, there are a syntax problem
+			debug("ERROR: There are some syntax problem: \ndata: %s"
 					"\nkey: %s\n", data.c_str(), key.c_str());
 			return -1;
 		}
@@ -61,11 +111,23 @@ int ISyntaxAnalyzer::analyzePieceOfData(const std::string &data)
 
 		pos = pos + std::string(ASSIGNMENT_OPERATOR).size();
 		// if we are here then we have the phrase but it is not parsed at all
+		if(parsePhrase(phrase, values) != 0){
+			debug("ERROR: Some error occur parsing the values\n");
+			return -1;
+		}
 
+		// we have the values of the phrase parsed. Build the object
 
+		object = builder->buildObject(values, error);
+		if(!object){
+			debug("ERROR: %s\n", error.c_str());
+			return -1;
+		}
+		objects.push_back(object);
 
 	}
 
+	error = "";
 	return 0;
 }
 
@@ -79,6 +141,7 @@ int ISyntaxAnalyzer::analyzePieceOfData(const std::string &data)
  * 		NULL		on error.
  * 		errInfo		More info about the error.
  */
+/******************************************************************************/
 Module *ISyntaxAnalyzer::analyzeModule(const std::string &fname,
 													const std::string &data,
 													std::string &errInfo)
@@ -94,16 +157,46 @@ Module *ISyntaxAnalyzer::analyzeModule(const std::string &fname,
 
 	std::list<std::string> dataToAnalize;
 
-	// now get the data to be analized from the module
-	int err = parseModule(fname, data, dataToAnalize);
+	// now get the data to be analyzed from the module (comments)
+	int err = parseModule(fname, data, dataToAnalize, errInfo);
 	if(err != 0) {
 		// some error ocurred
-		debug("ERROR: Error ocurred parsing the module, errNmb: %i\n", err);
+		debug("ERROR: Error (%s) ocurred parsing the module, errNmb: %i\n",
+				errInfo.c_str(), err);
 		return 0;
 	}
 
 	// we have parsed correctly the module, now we extract all the info from it
+	// we will put in a list of IObjects every piece of data to analyze
+	std::vector<std::list<IObject *> > objectsVec;
+	std::list<IObject*> objects;
+	bool error = false;
 
+	for(std::list<std::string>::iterator it = dataToAnalize.begin(); it !=
+			dataToAnalize.end(); ++it) {
+		if(analyzePieceOfData(*it, objects, errInfo) != 0){
+			debug("ERROR: parsing \n\n%s\n\n. Error: %s\n", (*it).c_str(),
+					errInfo.c_str());
+			error = true;
+			break;
+		}
+
+		// everything ok. put in the vector
+		objectsVec.push_back(objects);
+		objects.clear();
+	}
+
+	if(error){
+		// remove every object allocated
+		for(std::vector<std::list<IObject*> >::iterator it = objectsVec.begin();
+				it != objectsVec.end(); ++it) {
+			cleanIObjectsList(*it);
+		}
+	}
+
+	// if there are no error then put every object into the Module
+	Module *result = new Module();
+	ASSERT(result);
 
 }
 
@@ -111,6 +204,7 @@ Module *ISyntaxAnalyzer::analyzeModule(const std::string &fname,
  * REQUIRES:
  * 		builder		!= 0
  */
+/******************************************************************************/
 void ISyntaxAnalyzer::addBuilder(IObjectBuilder *builder)
 {
 	ASSERT(builder);
@@ -135,9 +229,8 @@ void ISyntaxAnalyzer::removeBuilder(const std::string &name);
 */
 
 
-
+/******************************************************************************/
 ISyntaxAnalyzer::~ISyntaxAnalyzer()
 {
-	if(conf)
-		delete conf;
+
 }

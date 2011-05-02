@@ -32,7 +32,7 @@ public:
 	 *  			Who call this functions is now the owner of the memory
 	 *  	error	Error info (if there are some error, else this will be empty)
 	 */
-	virtual IObject *buildObject(const std::map<std::string, std::string> &data,
+	virtual IObject *buildObject(const std::list<std::string> &data,
 													std::string &error)
 	{error = "Not implemented" ; return 0;}
 
