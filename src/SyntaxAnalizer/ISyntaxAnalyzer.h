@@ -74,12 +74,8 @@ protected:
 	 * the analyzeModule Function)
 	 */
 	virtual int parseModule(const std::string &fName, const std::string &data,
-<<<<<<< .mine
 			std::list<std::string> &toAnalize, std::string &error,
 			std::map<std::string, std::string> &extraValues);
-=======
-			std::list<std::string> &toAnalize, std::string &error);
->>>>>>> .r30
 
 private:
 
