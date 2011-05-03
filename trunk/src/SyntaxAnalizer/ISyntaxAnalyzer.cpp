@@ -156,9 +156,10 @@ Module *ISyntaxAnalyzer::analyzeModule(const std::string &fname,
 	}
 
 	std::list<std::string> dataToAnalize;
+	std::map<std::string, std::string> extraValues;
 
 	// now get the data to be analyzed from the module (comments)
-	int err = parseModule(fname, data, dataToAnalize, errInfo);
+	int err = parseModule(fname, data, dataToAnalize, errInfo, extraValues);
 	if(err != 0) {
 		// some error ocurred
 		debug("ERROR: Error (%s) ocurred parsing the module, errNmb: %i\n",
@@ -188,9 +189,8 @@ Module *ISyntaxAnalyzer::analyzeModule(const std::string &fname,
 
 	if(error){
 		// remove every object allocated
-		for(std::vector<std::list<IObject*> >::iterator it = objectsVec.begin();
-				it != objectsVec.end(); ++it) {
-			cleanIObjectsList(*it);
+		for(int i = objectsVec.size() - 1; i >= 0; ++i) {
+			cleanIObjectsList(objectsVec[i]);
 		}
 	}
 
@@ -198,6 +198,27 @@ Module *ISyntaxAnalyzer::analyzeModule(const std::string &fname,
 	Module *result = new Module();
 	ASSERT(result);
 
+	/* put the extra data. ULTRA UGLY HARDCODED! :(, no time */
+	if(extraValues.find("MODULE_NAME") != extraValues.end()){
+		result->setModuleName(extraValues["MODULE_NAME"]);
+	} else {
+		result->setModuleName("UNKNOWN!!!");
+	}
+	if(extraValues.find("MODULE_DESCRIPTION") != extraValues.end()){
+		result->setModuleName(extraValues["MODULE_DESCRIPTION"]);
+	}
+
+	result->setFileName(fname);
+
+	// now put all the IObjects
+	for(int i = 0; i < objectsVec.size(); ++i) {
+		for(std::list<IObject*>::iterator it = objectsVec[i].begin();
+				it != objectsVec[i].end(); ++it){
+			result->addNewObject(*it);
+		}
+	}
+
+	return result;
 }
 
 /* Function used to add a new Builder

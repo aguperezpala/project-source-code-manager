@@ -69,9 +69,17 @@ protected:
 	 * data (file content) and returns all the pieces of code that have to
 	 * be analyzed (that can contain keys and values, this are the comments).
 	 * In case of error returns errCode.
+	 * Although have to extract some extra info like MODULE_NAME,
+	 * MODULE_DESCRIPTION, and all the Keys that we will support (see
+	 * the analyzeModule Function)
 	 */
 	virtual int parseModule(const std::string &fName, const std::string &data,
+<<<<<<< .mine
+			std::list<std::string> &toAnalize, std::string &error,
+			std::map<std::string, std::string> &extraValues);
+=======
 			std::list<std::string> &toAnalize, std::string &error);
+>>>>>>> .r30
 
 private:
 
