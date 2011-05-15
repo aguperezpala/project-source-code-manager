@@ -1,0 +1,41 @@
+Requerimientos funcionales
+--------------------------
+
+* Interprete de informacion en los tags
+* Mostrar en pantalla la informacion leida.
+
+
+
+Datos que queremos poder obtener
+--------------------------------
+
+
+Funciones
+	Signatura.
+	Peso.
+	% funcion completada.
+	Flag que determina si esta testeada o no.
+
+Issues:
+	TODO
+	IMPROVEMENTS
+	REFACTORY
+	BUG_FIX
+		Owner
+		fecha limite
+		prioridad.
+
+Comentarios
+	Cuerpo
+
+
+Modulo
+	Nombre
+	Descripcion
+	Nombre asociado al modulo.
+	Peso del modulo respecto al proyecto
+	Estado del modulo (se define en funcion de los issues de las funciones)
+	Compila?
+	Issues del modulo	
+
+
