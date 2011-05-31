@@ -1,0 +1,40 @@
+Convenciones:
+
+Estamos suponiendo que cada issue va a ser asociada a la funcion "mas" previamente
+definida, en caso de no haber una funcion definida anteriormente, esta issue
+es asociada al Modulo directamente.
+
+Pseudo algoritmo.
+-----------------
+
+1) Identificar comentarios.
+2) Setear numeros de linea a los comentarios parseados.
+3) Etiquetar bloques de comentarios:
+	* Tipo comentario Modulo
+	* Tipo comentario de Funcion.
+	* Tipo comentario Issue
+Notar que estos son los 3 tipos de comentarios a grandes rasgos que podemos
+encontrar, eso sirve para determinar a donde pertenece cada uno despues (armar
+el arbol).
+
+4) Determinar profundidad de arbol segun tipo de bloque de comentario.
+REF:	M : Comentario tipo Modulo
+	F : Comentario tipo Funcion.
+	I : Comentario tipo Issue.
+
+Las opciones que tenemos son las siguientes:
+	M (F (I)*)*
+	M (I* (F* I*)*
+	M I*
+	M F*
+	(F I*)*		|_	Si no hay M se agrega con valores de TAGS al arbol
+	(I* F*)*	|	por defecto (Nomre = Nombre archivo. Peso: 1. Desc = ""
+	
+	ESTOS CASOS NO PUEDEN IR:
+	F M
+	I M
+	M M (en caso de que vaya M en .h M .cpp tiene prioridad el cpp.)
+	
+
+5) Asociar Issues (ya sea a funciones o modulos) y agregar al arbol.
+
