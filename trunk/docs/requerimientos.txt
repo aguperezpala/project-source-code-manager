@@ -39,3 +39,14 @@ Modulo
 	Issues del modulo	
 
 
+
+
+
+Convenciones
+------------
+
+Algunas cosas que tenemos que tener en cuenta:
+	* No soportamos la existencia de 2 o mas .cpp para un mismo .h.
+	* No soportamos que el .h y el .cpp (header / source) tengan distinto
+	nombre. 
+
